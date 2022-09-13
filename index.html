@@ -91,18 +91,19 @@
   <footer class="footer">
     <p class="footer__text">&copy;&nbsp;2022 Mesto Russia</p>
   </footer>
-  <section class="overlay">
-    <form class="popup">
+  <section class="popup">
+    <div class="popup__container">
       <a class="link" href="#">
         <img class="popup__close-button" src="./images/closeIcon.svg" alt="закрыть форму">
       </a>
-      <h2 class="popup__title">Редактировать профиль</h2>
-      <input class="popup__editform popup__name" type="text" name="profileName">
-      <hr class="popup__line">
-      <input class="popup__editform popup__job" type="text" name="profilejob" value="Исследователь океана">
-      <hr class="popup__line">
-      <button class="popup__save-button" type="submit">Сохранить</button>
-    </form>
+      <form class="popup__form">
+        <h2 class="popup__form-title">Редактировать профиль</h2>
+        <input class="popup__input popup__input-name" type="text" name="profileName">
+        <hr class="popup__line">
+        <input class="popup__input popup__input-job" type="text" name="profilejob" value="Исследователь океана">
+        <hr class="popup__line">
+        <button class="popup__save-button" type="submit">Сохранить</button>      </form>
+    </div>
   </section>
   <script src="./scripts/script.js"></script>
 </body>

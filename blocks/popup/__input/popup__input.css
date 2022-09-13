@@ -1,4 +1,4 @@
-.popup__editform {
+.popup__input {
     border: none;
     margin: 0 36px;
     max-width: 358px;
@@ -13,11 +13,11 @@
 }
 
 @media screen and (max-width: 767px) {
-    .popup__editform {
+    .popup__input {
         max-width: 238px;
         
     }
 }
-.popup__editform:active {
+.popup__input:active {
     border: none;
 }
