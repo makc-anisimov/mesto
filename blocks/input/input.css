@@ -1,24 +1,25 @@
 .input {
-    border: none;
-    margin: 0 36px;
-    padding: 0;
-    max-width: 358px;
-    min-height: 27px;
-    font-family: 'Inter', Arial, sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-    color: #000000;
-    border-bottom: 1px solid rgba(84, 84, 84, 0.7)
+  border: none;
+  margin: 0 36px;
+  padding: 0;
+  max-width: 358px;
+  min-height: 27px;
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
 }
+
 @media screen and (max-width: 767px) {
-    .input {
-        margin-left: 22px;
-        margin-right: 22px;
-        max-width: 238px;
-    }
+  .input {
+    margin-left: 22px;
+    margin-right: 22px;
+    max-width: 238px;
+  }
 }
 .input:active {
-    border: none;
+  border: none;
 }
