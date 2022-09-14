@@ -3,11 +3,12 @@
     flex-direction: column;
     position: relative;
     justify-content: center;
-    max-width: 338px;
+    max-width: 336px;
 }
 
 @media screen and (max-width: 767px) {
     .profile__info {
         max-width: 282px;
+        margin-top: 26px;
     }
 }

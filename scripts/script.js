@@ -21,8 +21,8 @@ function closePopup () {
 
 
 function fillEditForm() {
-    profileEditName.value = profileName.textContent;
-    profileEditJob.value = profileJob.textContent;
+    profileEditName.placeholder = profileName.textContent;
+    profileEditJob.placeholder = profileJob.textContent;
 };
 
 openPopupButton.addEventListener('click', () => {
@@ -37,7 +37,6 @@ closePopupButton.addEventListener ('click', () => {
 function formSubmitHandler (evt) {
     evt.preventDefault();
     profileName.textContent = profileEditName.value;
-    // console.log(profileEditName.value);
     profileJob.textContent = profileEditJob.value;
     closePopup();
     };
