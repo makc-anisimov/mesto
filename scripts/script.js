@@ -1,16 +1,12 @@
 const popupElement = document.querySelector('.popup');
 const openPopupButton = document.querySelector('.profile__edit');
 const closePopupButton = popupElement.querySelector('.popup__close-button');
-const savePopupButton = popupElement.querySelector('.popup__save-button');
 
-var profileName = document.querySelector('.profile__name');
-var profileJob = document.querySelector('.profile__job');
-var profileEditName = popupElement.querySelector('.popup__input-name');
-var profileEditJob = popupElement.querySelector('.popup__input-job');
+let profileName = document.querySelector('.profile__name');
+let profileJob = document.querySelector('.profile__job');
+let profileEditName = popupElement.querySelector('.popup__input-name');
+let profileEditJob = popupElement.querySelector('.popup__input-job');
 
-// const toggleOverlay = () => {
-//     popupElement.classList.toggle('overlay_opened');
-// }
 function openPopup () {
     popupElement.classList.add('popup_opened');
 }
@@ -21,8 +17,8 @@ function closePopup () {
 
 
 function fillEditForm() {
-    profileEditName.placeholder = profileName.textContent;
-    profileEditJob.placeholder = profileJob.textContent;
+    profileEditName.value = profileName.textContent;
+    profileEditJob.value = profileJob.textContent;
 };
 
 openPopupButton.addEventListener('click', () => {
@@ -41,4 +37,4 @@ function formSubmitHandler (evt) {
     closePopup();
     };
 
-savePopupButton.addEventListener('click', formSubmitHandler);
+    popupElement.addEventListener('submit', formSubmitHandler);
