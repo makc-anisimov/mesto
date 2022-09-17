@@ -1,6 +1,7 @@
 .popup__form-title {
   padding: 0;
   margin: 0;
+  padding-bottom: 18px;
   max-width: 330px;
   font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
@@ -13,6 +14,7 @@
 
 @media screen and (max-width: 767px) {
   .popup__form-title {
+    padding-bottom: 45px;
     max-width: 238px;
     font-size: 18px;
     line-height: 22px;

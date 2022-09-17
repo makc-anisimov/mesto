@@ -4,8 +4,8 @@ const closePopupButton = popupElement.querySelector('.popup__close-button');
 
 let profileName = document.querySelector('.profile__name');
 let profileJob = document.querySelector('.profile__job');
-let profileEditName = popupElement.querySelector('.popup__input-name');
-let profileEditJob = popupElement.querySelector('.popup__input-job');
+let profileEditName = popupElement.querySelector('#inputName');
+let profileEditJob = popupElement.querySelector('#inputJob');
 
 function openPopup () {
     popupElement.classList.add('popup_opened');
@@ -24,6 +24,9 @@ function fillEditForm() {
 openPopupButton.addEventListener('click', () => {
     openPopup();
     fillEditForm();
+    // console.log(profileName);
+    // console.log(profileJob);
+
 })
 
 closePopupButton.addEventListener ('click', () => {

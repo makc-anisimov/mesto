@@ -1,12 +1,14 @@
 .profile__title {
     display: flex;
-    width: 336px;
+    max-width: 336px;
     justify-content: space-between;
     align-items: baseline;
     margin-bottom: 16px;
 }
 @media screen and (max-width: 767px) {
     .profile__title {
-        max-width: 282px;
+      padding: 0 19px;
+      width: 244px;
+      position: relative;
     }
 }
