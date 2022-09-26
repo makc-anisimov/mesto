@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Max Anisimov">
-  <meta name="description" content="Практическая работа 4 Max Anisimov на Яндекс Практикуме">
+  <meta name="description" content="Практическая работа 5 Max Anisimov на Яндекс Практикуме">
   <link rel="stylesheet" href="./pages/index.css">
   <title>Mesto</title>
 </head>
@@ -29,6 +29,7 @@
     <section class="elements">
       <ul class="elements__list">
         <li class="element">
+          <button class="element__delete-button link" type="button" aria-label="Удалить место"></button>
           <img class="element__photo" src="./images/san-siro.jpg" alt="Стадион Сан-Сиро изнутри">
           <div class="element__info">
             <h2 class="element__title">San-Siro Stadium, Italy</h2>
@@ -36,6 +37,7 @@
           </div>
         </li>
         <li class="element">
+          <button class="element__delete-button link" type="button" aria-label="Удалить место"></button>
           <img class="element__photo" src="./images/etihad-stadium.jpg" alt="Стадион Этихад изнутри">
           <div class="element__info">
             <h2 class="element__title">Etihad Stadium, England</h2>
@@ -43,6 +45,7 @@
           </div>
         </li>
         <li class="element">
+          <button class="element__delete-button link" type="button" aria-label="Удалить место"></button>
           <img class="element__photo" src="./images/signal-iduna-park.jpg" alt="вид на Сигнал Идуна Парк с трибун">
           <div class="element__info">
             <h2 class="element__title">Signal Iduna Park, German</h2>
@@ -50,6 +53,7 @@
           </div>
         </li>
         <li class="element">
+          <button class="element__delete-button link" type="button" aria-label="Удалить место"></button>
           <img class="element__photo" src="./images/camp-nou.jpg" alt="Стадион Камп Ноу">
           <div class="element__info">
             <h2 class="element__title">Camp Nou, Spain</h2>
@@ -57,6 +61,7 @@
           </div>
         </li>
         <li class="element">
+          <button class="element__delete-button link" type="button" aria-label="Удалить место"></button>
           <img class="element__photo" src="./images/parc-des-princes.jpg" alt="Парк де Пренс вид трибун">
           <div class="element__info">
             <h2 class="element__title">Parc des Princes, France</h2>
@@ -64,6 +69,7 @@
           </div>
         </li>
         <li class="element">
+          <button class="element__delete-button link" type="button" aria-label="Удалить место"></button>
           <img class="element__photo" src="./images/mercedes-benz-stadium.jpg" alt="Мерседес-Бенц арена">
           <div class="element__info">
             <h2 class="element__title">Mercedes-Benz Stadium, USA</h2>
@@ -76,7 +82,7 @@
   <footer class="footer">
     <p class="footer__text">&copy;&nbsp;2022 Mesto Russia</p>
   </footer>
-  <div class="popup">
+  <div class="popup popup_edit-profile">
     <div class="popup__container">
       <button class="popup__close-button link" type="button" aria-label="закрыть форму"></button>
       <form class="popup__form" name="popupprofile" method="post">
@@ -87,6 +93,34 @@
       </form>
     </div>
   </div>
+  <div class="popup popup_add-photo">
+    <div class="popup__container">
+      <button class="popup__close-button link" type="button" aria-label="закрыть форму"></button>
+      <form class="popup__form" name="popupmesto" method="post">
+        <h2 class="popup__form-title">Новое место</h2>
+        <input class="popup__input-form" type="text" id="inputMestoName" name="mestoName" placeholder="Название">
+        <input class="popup__input-form" type="text" id="inputMestoLink" name="mestoLink" placeholder="Ссылка на картинку">
+        <button class="popup__save-button" type="submit">Создать</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_wiew-photo">
+    <div class="popup__container-photo">
+      <button class="popup__close-button link" type="button" aria-label="закрыть форму"></button>
+      <img class="popup__photo-opened" src="" alt="">
+      <h2 class="popup__photo-title"></h2>
+    </div>
+  </div>
+  <template class="element-template">
+    <li class="element">
+      <button class="element__delete-button link" type="button" aria-label="Удалить место"></button>
+      <img class="element__photo" src="image source" alt="alt image">
+      <div class="element__info">
+        <h2 class="element__title">image title</h2>
+        <button class="element__like" type="button" aria-label="Нравится"></button>
+      </div>
+    </li>
+  </template>
   <script src="./scripts/script.js"></script>
 </body>
 </html>
