@@ -1,4 +1,31 @@
-//const popupElement = document.querySelector('.popup');
+//const popupElement = document.querySelector('.popup'); уже не используется
+
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
 
 const popupElementEditProfile = document.querySelector('.popup_edit-profile'); //попап окно редактирования профиля
 const popupElementAddPhoto = document.querySelector('.popup_add-photo');       //попап окно добавления фото
@@ -53,16 +80,9 @@ function formSubmitEditProfile(evt) {
 popupElementEditProfile.addEventListener('submit', formSubmitEditProfile);
 //--------------------------------------------------
 
-// !!!!добавление места черновик
-buttonAddPhoto.addEventListener('click', () => {
-  openPopup(popupElementAddPhoto);
-})
 
-buttonClosePopupAddPhoto.addEventListener('click', () => {
-  closePopup(popupElementAddPhoto);
-})
 
-const elementsList = document.querySelectorAll('.element'); //NodeList всех карточек
+const elementsList = document.querySelector('.elements__list'); //NodeList всех карточек DOM
 const templateElement = document.querySelector('.element-template').content; // шаблон карточки
 
 const inputAddPhotoName = popupElementAddPhoto.querySelector('#inputMestoName'); //инпут названия в попапе добавления фото
@@ -70,13 +90,24 @@ const inputAddPhotoSrcLink = popupElementAddPhoto.querySelector('#inputMestoLink
 
 const items = Array.from(elementsList); //получили массив из NodeList всех элементов массива
 
+
+
+buttonAddPhoto.addEventListener('click', () => {
+  openPopup(popupElementAddPhoto);
+})
+
+buttonClosePopupAddPhoto.addEventListener('click', () => {
+  closePopup(popupElementAddPhoto);
+})
 function formSubmitAddPhoto(evt) {
-  // evt.preventDefault();
-  //  = inputAddPhotoName.value;
-  //  = inputAddPhotoSrcLink.value;
-  console.log(inputAddPhotoName.value);
-  console.log(inputAddPhotoSrcLink.value);
-  // closePopup(popupElementAddPhoto);
+  evt.preventDefault();
+  const newCard = [];
+  newCard.link = `${inputAddPhotoSrcLink.value}`;
+  newCard.name = inputAddPhotoName.value;
+  elementsList.prepend(createCard(newCard));
+  inputAddPhotoName.value = '';     // очищаем поля ввода
+  inputAddPhotoSrcLink.value = '';  //
+  closePopup(popupElementAddPhoto); //  закрываем окно формы
 };
 popupElementAddPhoto.addEventListener('submit', formSubmitAddPhoto);
 //------------
@@ -115,12 +146,20 @@ buttonClosePopupWiewPhoto.addEventListener('click', () => {
 
 //-----------------------функция создания карточки--------------
 function createCard(dataCard) {
-  const newHtmlElement = templateElement.cloneNode(true); // из темплейта создаем шаблон карточки.
-  const  cardPhoto = newHtmlElement.querySelector('.element__photo'); //фото в карточке
-  const cardTitle = newHtmlElement.querySelector('.element__title');  //название места
+  const card = templateElement.cloneNode(true); // из темплейта создаем шаблон карточки.
+  const cardPhoto = card.querySelector('.element__photo'); //фото в карточке
+  const cardTitle = card.querySelector('.element__title');  //название места
   cardTitle.textContent = dataCard.name;
   cardPhoto.src = dataCard.link;
   cardPhoto.alt = dataCard.name;
-  // return newHtmlElement;   надо ли чтото возвращать???
+  return card; //получили карточку с данными
 };
 // ---------------------------------------------------------------
+
+//-----------функция создания списка элементов из массива данных "карточки"
+function renderCards() {
+  initialCards.forEach(function (item) {
+    elementsList.prepend(createCard(item));
+  });
+};
+renderCards();
