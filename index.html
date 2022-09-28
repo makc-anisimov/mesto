@@ -26,56 +26,9 @@
       </div>
       <button class="link profile__add-button" type="button" aria-label="Добавить интересное место"></button>
     </section>
-    <section class="elements">
+    <section class="elements" aria-label="Места">
       <ul class="elements__list">
-        <!-- <li class="element">
-          <button class="element__delete-button link" type="button" aria-label="Удалить место"></button>
-          <img class="element__photo" src="./images/san-siro.jpg" alt="Стадион Сан-Сиро изнутри">
-          <div class="element__info">
-            <h2 class="element__title">San-Siro Stadium, Italy</h2>
-            <button class="element__like" type="button" aria-label="Нравится"></button>
-          </div>
-        </li>
-        <li class="element">
-          <button class="element__delete-button link" type="button" aria-label="Удалить место"></button>
-          <img class="element__photo" src="./images/etihad-stadium.jpg" alt="Стадион Этихад изнутри">
-          <div class="element__info">
-            <h2 class="element__title">Etihad Stadium, England</h2>
-            <button class="element__like" type="button" aria-label="Нравится"></button>
-          </div>
-        </li>
-        <li class="element">
-          <button class="element__delete-button link" type="button" aria-label="Удалить место"></button>
-          <img class="element__photo" src="./images/signal-iduna-park.jpg" alt="вид на Сигнал Идуна Парк с трибун">
-          <div class="element__info">
-            <h2 class="element__title">Signal Iduna Park, German</h2>
-            <button class="element__like" type="button" aria-label="Нравится"></button>
-          </div>
-        </li>
-        <li class="element">
-          <button class="element__delete-button link" type="button" aria-label="Удалить место"></button>
-          <img class="element__photo" src="./images/camp-nou.jpg" alt="Стадион Камп Ноу">
-          <div class="element__info">
-            <h2 class="element__title">Camp Nou, Spain</h2>
-            <button class="element__like" type="button" aria-label="Нравится"></button>
-          </div>
-        </li>
-        <li class="element">
-          <button class="element__delete-button link" type="button" aria-label="Удалить место"></button>
-          <img class="element__photo" src="./images/parc-des-princes.jpg" alt="Парк де Пренс вид трибун">
-          <div class="element__info">
-            <h2 class="element__title">Parc des Princes, France</h2>
-            <button class="element__like" type="button" aria-label="Нравится"></button>
-          </div>
-        </li>
-        <li class="element">
-          <button class="element__delete-button link" type="button" aria-label="Удалить место"></button>
-          <img class="element__photo" src="./images/mercedes-benz-stadium.jpg" alt="Мерседес-Бенц арена">
-          <div class="element__info">
-            <h2 class="element__title">Mercedes-Benz Stadium, USA</h2>
-            <button class="element__like" type="button" aria-label="Нравится"></button>
-          </div>
-        </li> -->
+        <!--Динамическое содержимое через JS  -->
       </ul>
     </section>
   </main>
@@ -107,8 +60,8 @@
   <div class="popup popup_wiew-photo">
     <div class="popup__container-photo">
       <button class="popup__close-button link" type="button" aria-label="закрыть форму"></button>
-      <img class="popup__photo-opened" src="" alt="">
-      <h2 class="popup__photo-title"></h2>
+      <img class="popup__photo-opened" src="#" alt="">
+      <h2 class="popup__photo-title">#</h2>
     </div>
   </div>
   <template class="element-template">
@@ -121,7 +74,6 @@
       </div>
     </li>
   </template>
-  <!-- <script src="./scripts/cards.js"></script> -->
   <script src="./scripts/script.js"></script>
 </body>
 </html>

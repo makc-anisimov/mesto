@@ -5,9 +5,11 @@
   bottom: 0;
   left: 0;
   right: 0;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
+  visibility: hidden;
+  opacity: 0;
 }
 
 .popup::before {
