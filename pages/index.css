@@ -46,6 +46,7 @@
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/popup/_edit-profile/popup_edit-profile.css);
 @import url(../blocks/popup/_add-photo/popup_add-photo.css);
+@import url(../blocks/popup/_wiew-photo/popup_wiew-photo.css);
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__container-photo/popup__container-photo.css);
 @import url(../blocks/popup/__close-button/popup__close-button.css);
