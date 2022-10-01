@@ -1,8 +1,10 @@
 
-
 const popupElementEditProfile = document.querySelector('.popup_edit-profile'); //попап окно редактирования профиля
+const formEditProfile = popupElementEditProfile.querySelector('#formEditProfile'); //форма добавления фото
 const popupElementAddPhoto = document.querySelector('.popup_add-photo');       //попап окно добавления фото
-const popupElementWievPhoto = document.querySelector('.popup_wiew-photo');       //попап окно добавления фото
+const formAddPhoto = popupElementAddPhoto.querySelector('#formAddPhoto');
+
+const popupElementWievPhoto = document.querySelector('.popup_wiew-photo');       //попап окно просмотра фото
 const photoOpened = popupElementWievPhoto.querySelector('.popup__photo-opened');
 const photoTitle = popupElementWievPhoto.querySelector('.popup__photo-title');
 
@@ -94,9 +96,10 @@ function renderCards(arrayCards) {  //-----------функция создания
 buttonProfileEdit.addEventListener('click', () => {
   openPopup(popupElementEditProfile);
   fillProfileEditForm();
-  const formEditProfile = popupElementEditProfile.querySelector('#formEditProfile');
-  formEditProfile.addEventListener('submit', formSubmitEditProfile);
 })
+
+formEditProfile.addEventListener('submit', formSubmitEditProfile);
+
 buttonClosePopupEditProfile.addEventListener('click', () => {
   closePopup(popupElementEditProfile);
 })
@@ -108,7 +111,7 @@ buttonAddPhoto.addEventListener('click', () => {
 buttonClosePopupAddPhoto.addEventListener('click', () => {
   closePopup(popupElementAddPhoto);
 })
-popupElementAddPhoto.addEventListener('submit', formSubmitAddPhoto);
+formAddPhoto.addEventListener('submit', formSubmitAddPhoto);
 //------------
 buttonClosePopupWiewPhoto.addEventListener('click', () => {
   closePopup(popupElementWievPhoto);
