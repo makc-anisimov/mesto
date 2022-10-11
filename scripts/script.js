@@ -1,8 +1,10 @@
 
 const popupElementEditProfile = document.querySelector('.popup_edit-profile'); //попап окно редактирования профиля
-const formEditProfile = popupElementEditProfile.querySelector('#formEditProfile'); //форма добавления фото
+// const formEditProfile = popupElementEditProfile.querySelector('#formEditProfile'); //форма добавления фото
 const popupElementAddPhoto = document.querySelector('.popup_add-photo');       //попап окно добавления фото
-const formAddPhoto = popupElementAddPhoto.querySelector('#formAddPhoto');
+// const formAddPhoto = popupElementAddPhoto.querySelector('#formAddPhoto');
+const formEditProfile = document.forms.formEditProfile;
+const formAddPhoto = document.forms.formAddPhoto;
 
 const popupElementWievPhoto = document.querySelector('.popup_wiew-photo');       //попап окно просмотра фото
 const photoOpened = popupElementWievPhoto.querySelector('.popup__photo-opened');
@@ -34,8 +36,8 @@ function closePopup(popupWindow) {
   popupWindow.classList.remove('popup_opened');
 }
 
-function resetForm(Form) {
-  Form.reset();
+function resetForm(form) {
+  form.reset();
 }
 
 function fillProfileEditForm() {
@@ -43,7 +45,7 @@ function fillProfileEditForm() {
   profileEditJob.value = profileJob.textContent;
 };
 
-function formSubmitEditProfile(evt) {
+function submitEditProfile(evt) {
   evt.preventDefault();
   profileName.textContent = profileEditName.value;
   profileJob.textContent = profileEditJob.value;
@@ -98,7 +100,9 @@ buttonProfileEdit.addEventListener('click', () => {
   fillProfileEditForm();
 })
 
-formEditProfile.addEventListener('submit', formSubmitEditProfile);
+formEditProfile.addEventListener('submit', submitEditProfile);
+// formEditProfile.addEventListener('input', handleValidateInput);
+
 
 buttonClosePopupEditProfile.addEventListener('click', () => {
   closePopup(popupElementEditProfile);
@@ -112,8 +116,55 @@ buttonClosePopupAddPhoto.addEventListener('click', () => {
   closePopup(popupElementAddPhoto);
 })
 formAddPhoto.addEventListener('submit', formSubmitAddPhoto);
+
 //------------
 buttonClosePopupWiewPhoto.addEventListener('click', () => {
   closePopup(popupElementWievPhoto);
 })
 renderCards(initialCards);
+
+
+function enableValidation (form) {
+  const popupFormList = document.querySelectorAll(`${form.formSelector}`); //список всех форм
+  popupFormList.forEach(function (element) {
+    element.addEventListener('input', handleValidateInput);
+  })
+}
+
+function isValid (input) {
+  const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
+  errorSpan.textContent = input.validationMessage;
+  if (!input.validity.valid) {
+    input.classList.add('popup__input-form_error');
+  }
+  else input.classList.remove('popup__input-form_error');
+}
+
+function handleValidateInput (evt) {
+  const currentForm = evt.currentTarget;
+  const submitButton = currentForm.querySelector('.popup__save-button');
+  isValid(evt.target);
+  if (currentForm.checkValidity()) {
+    enableButton(submitButton);
+  }
+  else {
+    disableButton(submitButton);
+  }
+}
+
+ function disableButton (button) {
+  button.setAttribute('disabled', true)
+ }
+
+ function enableButton (button) {
+  button.removeAttribute('disabled');
+ }
+
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input-form',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: '.popup__button_disabled',
+  inputErrorClass: 'popup__input-form_error',
+  errorClass: '.popup__error_visible'
+});

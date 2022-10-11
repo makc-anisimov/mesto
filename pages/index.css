@@ -50,9 +50,11 @@
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__container-photo/popup__container-photo.css);
 @import url(../blocks/popup/__close-button/popup__close-button.css);
+@import url(../blocks/popup/__error/_visible/popup__error_visible.css);
 @import url(../blocks/popup/__form/popup__form.css);
 @import url(../blocks/popup/__form-title/popup__form-title.css);
 @import url(../blocks/popup/__input-form/popup__input-form.css);
+@import url(../blocks/popup/__input-form/_error/popup__input-form_error.css);
 @import url(../blocks/popup/__save-button/popup__save-button.css);
 @import url(../blocks/popup/__photo-opened/popup__photo-opened.css);
 @import url(../blocks/popup/__photo-title/popup__photo-title.css);
