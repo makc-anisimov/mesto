@@ -94,6 +94,9 @@ function renderCards(arrayCards) {  //-----------функция создания
     elementsContainer.prepend(createCard(item));
   });
 };
+
+
+
 //редактироване профиля---------------------------
 buttonProfileEdit.addEventListener('click', () => {
   openPopup(popupElementEditProfile);
@@ -101,18 +104,21 @@ buttonProfileEdit.addEventListener('click', () => {
 })
 
 formEditProfile.addEventListener('submit', submitEditProfile);
-// formEditProfile.addEventListener('input', handleValidateInput);
 
 
 buttonClosePopupEditProfile.addEventListener('click', () => {
+  eraseForm(popupElementEditProfile); //очищаем форму перед закрытием
   closePopup(popupElementEditProfile);
 })
 
 //--------добавление фото---------------
 buttonAddPhoto.addEventListener('click', () => {
   openPopup(popupElementAddPhoto);
+  // после открытия попапа надо навесить disable на кнопку, т.к. форма пустая
 })
 buttonClosePopupAddPhoto.addEventListener('click', () => {
+  // resetForm(popupElementAddPhoto.querySelector('.popup__form'));
+  eraseForm(popupElementAddPhoto);
   closePopup(popupElementAddPhoto);
 })
 formAddPhoto.addEventListener('submit', formSubmitAddPhoto);
@@ -123,48 +129,63 @@ buttonClosePopupWiewPhoto.addEventListener('click', () => {
 })
 renderCards(initialCards);
 
-
-function enableValidation (form) {
-  const popupFormList = document.querySelectorAll(`${form.formSelector}`); //список всех форм
+function enableValidation(settings) {
+  const popupFormList = document.querySelectorAll(settings.formSelector); //список всех форм
   popupFormList.forEach(function (element) {
-    element.addEventListener('input', handleValidateInput);
-  })
+    element.addEventListener('input', (evt) => {
+      const currentForm = evt.currentTarget;
+      const submitButton = currentForm.querySelector(settings.submitButtonSelector);
+
+      isValid(evt.target, settings.inputErrorClass);
+
+      if (currentForm.checkValidity()) {
+        enableButton(submitButton, settings.inactiveButtonClass);
+      }
+      else {
+        disableButton(submitButton, settings.inactiveButtonClass);
+      }
+    });
+
+  }, settings)
 }
 
-function isValid (input) {
+function isValid(input, nameInputFormErrorClass) {
   const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
   errorSpan.textContent = input.validationMessage;
   if (!input.validity.valid) {
-    input.classList.add('popup__input-form_error');
+    input.classList.add(nameInputFormErrorClass);
   }
-  else input.classList.remove('popup__input-form_error');
+  else input.classList.remove(nameInputFormErrorClass);
 }
 
-function handleValidateInput (evt) {
-  const currentForm = evt.currentTarget;
-  const submitButton = currentForm.querySelector('.popup__save-button');
-  isValid(evt.target);
-  if (currentForm.checkValidity()) {
-    enableButton(submitButton);
-  }
-  else {
-    disableButton(submitButton);
-  }
+function eraseForm (popup) {
+  const currentForm = popup.querySelector('.popup__form');
+  // const saveButton = currentForm.querySelector('.popup__save-button');
+  resetForm(currentForm);
+  currentForm.querySelectorAll('.popup__error_visible').forEach(function (span) {
+    span.textContent = "";
+  })
+  currentForm.querySelectorAll('.popup__input-form').forEach(function (input) {
+    input.classList.remove('popup__input-form_error');
+  })
+  currentForm.querySelector('.popup__save-button').classList.remove('popup__save-button_disabled');
 }
 
- function disableButton (button) {
-  button.setAttribute('disabled', true)
- }
+function disableButton(button, nameDisableClass) {
+  button.setAttribute('disabled', true);
+  button.classList.add(nameDisableClass);
+}
 
- function enableButton (button) {
+function enableButton(button, nameDisableClass) {
   button.removeAttribute('disabled');
- }
+  button.classList.remove(nameDisableClass);
+}
 
 enableValidation({
   formSelector: '.popup__form',
   inputSelector: '.popup__input-form',
   submitButtonSelector: '.popup__save-button',
-  inactiveButtonClass: '.popup__button_disabled',
+  inactiveButtonClass: 'popup__save-button_disabled',
   inputErrorClass: 'popup__input-form_error',
   errorClass: '.popup__error_visible'
 });
