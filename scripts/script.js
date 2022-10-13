@@ -101,6 +101,7 @@ function renderCards(arrayCards) {  //-----------функция создания
 buttonProfileEdit.addEventListener('click', () => {
   openPopup(popupElementEditProfile);
   fillProfileEditForm();
+  checkButtonOpenPopup(popupElementEditProfile);
 })
 
 formEditProfile.addEventListener('submit', submitEditProfile);
@@ -114,7 +115,8 @@ buttonClosePopupEditProfile.addEventListener('click', () => {
 //--------добавление фото---------------
 buttonAddPhoto.addEventListener('click', () => {
   openPopup(popupElementAddPhoto);
-  // после открытия попапа надо навесить disable на кнопку, т.к. форма пустая
+  checkButtonOpenPopup(popupElementAddPhoto);
+  // после открытия попапа надо навесить disable на кнопку, т.к. форма пустая - done!
 })
 buttonClosePopupAddPhoto.addEventListener('click', () => {
   // resetForm(popupElementAddPhoto.querySelector('.popup__form'));
@@ -168,7 +170,7 @@ function eraseForm (popup) {
   currentForm.querySelectorAll('.popup__input-form').forEach(function (input) {
     input.classList.remove('popup__input-form_error');
   })
-  currentForm.querySelector('.popup__save-button').classList.remove('popup__save-button_disabled');
+  // currentForm.querySelector('.popup__save-button').classList.remove('popup__save-button_disabled');
 }
 
 function disableButton(button, nameDisableClass) {
@@ -179,6 +181,14 @@ function disableButton(button, nameDisableClass) {
 function enableButton(button, nameDisableClass) {
   button.removeAttribute('disabled');
   button.classList.remove(nameDisableClass);
+}
+function checkButtonOpenPopup(popup) {
+  const form = popup.querySelector('.popup__form')
+  const buttonSave = popup.querySelector('.popup__save-button')
+  if (form.checkValidity()) {
+    buttonSave.classList.remove('popup__save-button_disabled');
+  }
+  else buttonSave.classList.add('popup__save-button_disabled');
 }
 
 enableValidation({
