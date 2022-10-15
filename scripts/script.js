@@ -1,8 +1,7 @@
 
+const popupList = document.querySelectorAll('.popup');   //список всех попапов
 const popupElementEditProfile = document.querySelector('.popup_edit-profile'); //попап окно редактирования профиля
-// const formEditProfile = popupElementEditProfile.querySelector('#formEditProfile'); //форма добавления фото
 const popupElementAddPhoto = document.querySelector('.popup_add-photo');       //попап окно добавления фото
-// const formAddPhoto = popupElementAddPhoto.querySelector('#formAddPhoto');
 const formEditProfile = document.forms.formEditProfile;
 const formAddPhoto = document.forms.formAddPhoto;
 
@@ -30,10 +29,21 @@ const inputAddPhotoSrcLink = popupElementAddPhoto.querySelector('#inputMestoLink
 
 function openPopup(popupWindow) {
   popupWindow.classList.add('popup_opened');
+  // document.addEventListener('keydown', handleEscUp);
+  // checkButtonOpenPopup(popupWindow);
 }
 
 function closePopup(popupWindow) {
+  // document.removeEventListener('keydown', handleEscUp);  // удаляем слушатель ESC перед закрытием!
   popupWindow.classList.remove('popup_opened');
+}
+
+function handleEscUp(evt) {
+  // evt.preventDefault();
+  const activePopup = document.querySelector('.popup_opened');
+  if (evt.key === "Escape") {
+    closePopup(activePopup);
+  }
 }
 
 function resetForm(form) {
@@ -51,6 +61,7 @@ function submitEditProfile(evt) {
   profileJob.textContent = profileEditJob.value;
   closePopup(popupElementEditProfile);
 };
+
 function formSubmitAddPhoto(evt) {  //-------------функция добавления фотокарточки
   evt.preventDefault();
   const newCard = [];
@@ -95,8 +106,69 @@ function renderCards(arrayCards) {  //-----------функция создания
   });
 };
 
+function isValid(input, nameInputFormErrorClass) {
+  const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
+  errorSpan.textContent = input.validationMessage;
+  if (!input.validity.valid) {
+    input.classList.add(nameInputFormErrorClass);
+  }
+  else input.classList.remove(nameInputFormErrorClass);
+}
 
+function eraseForm(popup) {
+  const currentForm = popup.querySelector('.popup__form');
+  resetForm(currentForm);
+  currentForm.querySelectorAll('.popup__error_visible').forEach(function (span) {
+    span.textContent = "";
+  })
+  currentForm.querySelectorAll('.popup__input-form').forEach(function (input) {
+    input.classList.remove('popup__input-form_error');
+  })
+}
 
+function disableButton(button, nameDisableClass) {
+  button.setAttribute('disabled', true);
+  button.classList.add(nameDisableClass);
+}
+
+function enableButton(button, nameDisableClass) {
+  button.removeAttribute('disabled');
+  button.classList.remove(nameDisableClass);
+}
+
+function checkButtonOpenPopup(popup) {    // функция проверки и изменения статуса кнопки сохранения при открытии попапа
+  const form = popup.querySelector('.popup__form');
+  const buttonSave = popup.querySelector('.popup__save-button');
+
+  if (form.checkValidity()) {
+    enableButton(buttonSave, 'popup__save-button_disabled');
+  }
+  else disableButton(buttonSave, 'popup__save-button_disabled');
+}
+
+function enableValidation(settings) {
+  const popupFormList = document.querySelectorAll(settings.formSelector); //список всех форм
+  popupFormList.forEach(function (element) {
+    element.addEventListener('input', (evt) => {
+      const currentForm = evt.currentTarget;
+      const submitButton = currentForm.querySelector(settings.submitButtonSelector);
+      console.log(currentForm.validity);
+      console.log(submitButton);
+
+      isValid(evt.target, settings.inputErrorClass);
+
+      if (currentForm.checkValidity()) {
+        enableButton(submitButton, settings.inactiveButtonClass);
+        // console.log(currentForm);
+        console.log(currentForm.checkValidity());
+      }
+      else {
+        disableButton(submitButton, settings.inactiveButtonClass);
+         console.log(currentForm.checkValidity());
+      }
+    });
+  }, settings)
+}
 //редактироване профиля---------------------------
 buttonProfileEdit.addEventListener('click', () => {
   openPopup(popupElementEditProfile);
@@ -105,7 +177,6 @@ buttonProfileEdit.addEventListener('click', () => {
 })
 
 formEditProfile.addEventListener('submit', submitEditProfile);
-
 
 buttonClosePopupEditProfile.addEventListener('click', () => {
   eraseForm(popupElementEditProfile); //очищаем форму перед закрытием
@@ -131,71 +202,19 @@ buttonClosePopupWiewPhoto.addEventListener('click', () => {
 })
 renderCards(initialCards);
 
-function enableValidation(settings) {
-  const popupFormList = document.querySelectorAll(settings.formSelector); //список всех форм
-  popupFormList.forEach(function (element) {
-    element.addEventListener('input', (evt) => {
-      const currentForm = evt.currentTarget;
-      const submitButton = currentForm.querySelector(settings.submitButtonSelector);
-
-      isValid(evt.target, settings.inputErrorClass);
-
-      if (currentForm.checkValidity()) {
-        enableButton(submitButton, settings.inactiveButtonClass);
-      }
-      else {
-        disableButton(submitButton, settings.inactiveButtonClass);
-      }
-    });
-
-  }, settings)
-}
-
-function isValid(input, nameInputFormErrorClass) {
-  const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
-  errorSpan.textContent = input.validationMessage;
-  if (!input.validity.valid) {
-    input.classList.add(nameInputFormErrorClass);
-  }
-  else input.classList.remove(nameInputFormErrorClass);
-}
-
-function eraseForm (popup) {
-  const currentForm = popup.querySelector('.popup__form');
-  // const saveButton = currentForm.querySelector('.popup__save-button');
-  resetForm(currentForm);
-  currentForm.querySelectorAll('.popup__error_visible').forEach(function (span) {
-    span.textContent = "";
+popupList.forEach(function (popup) {
+  popup.addEventListener('mousedown', (evt) => {    //  функция закрытя попапа по клику
+    if (evt.currentTarget === evt.target) {
+      closePopup(popup);
+    }
   })
-  currentForm.querySelectorAll('.popup__input-form').forEach(function (input) {
-    input.classList.remove('popup__input-form_error');
-  })
-  // currentForm.querySelector('.popup__save-button').classList.remove('popup__save-button_disabled');
-}
-
-function disableButton(button, nameDisableClass) {
-  button.setAttribute('disabled', true);
-  button.classList.add(nameDisableClass);
-}
-
-function enableButton(button, nameDisableClass) {
-  button.removeAttribute('disabled');
-  button.classList.remove(nameDisableClass);
-}
-function checkButtonOpenPopup(popup) {
-  const form = popup.querySelector('.popup__form')
-  const buttonSave = popup.querySelector('.popup__save-button')
-  if (form.checkValidity()) {
-    buttonSave.classList.remove('popup__save-button_disabled');
-  }
-  else buttonSave.classList.add('popup__save-button_disabled');
-}
-
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input-form',
-  submitButtonSelector: '.popup__save-button',
-  inactiveButtonClass: 'popup__save-button_disabled',
-  inputErrorClass: 'popup__input-form_error',
-  errorClass: '.popup__error_visible'
 });
+
+// enableValidation({
+//   formSelector: '.popup__form',
+//   inputSelector: '.popup__input-form',
+//   submitButtonSelector: '.popup__save-button',
+//   inactiveButtonClass: 'popup__save-button_disabled',
+//   inputErrorClass: 'popup__input-form_error',
+//   errorClass: '.popup__error_visible'
+// });
