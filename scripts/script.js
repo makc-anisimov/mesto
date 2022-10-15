@@ -27,21 +27,23 @@ const templateElement = document.querySelector('.element-template').content; // 
 const inputAddPhotoName = popupElementAddPhoto.querySelector('#inputMestoName'); //инпут названия в попапе добавления фото
 const inputAddPhotoSrcLink = popupElementAddPhoto.querySelector('#inputMestoLink'); // инпут ссылки на фото в попапе добавления фото
 
+const ESC_KEYCODE = 27;
+
 function openPopup(popupWindow) {
   popupWindow.classList.add('popup_opened');
-  // document.addEventListener('keydown', handleEscUp);
-  // checkButtonOpenPopup(popupWindow);
+  document.addEventListener('keydown', handleEscUp);
+  checkButtonOpenPopup(popupWindow);
 }
 
 function closePopup(popupWindow) {
-  // document.removeEventListener('keydown', handleEscUp);  // удаляем слушатель ESC перед закрытием!
+  document.removeEventListener('keydown', handleEscUp); // удаляем слушатель ESC перед закрытием!
   popupWindow.classList.remove('popup_opened');
 }
 
 function handleEscUp(evt) {
   // evt.preventDefault();
   const activePopup = document.querySelector('.popup_opened');
-  if (evt.key === "Escape") {
+  if (evt.keyCode === ESC_KEYCODE) {
     closePopup(activePopup);
   }
 }
@@ -152,19 +154,14 @@ function enableValidation(settings) {
     element.addEventListener('input', (evt) => {
       const currentForm = evt.currentTarget;
       const submitButton = currentForm.querySelector(settings.submitButtonSelector);
-      console.log(currentForm.validity);
-      console.log(submitButton);
 
       isValid(evt.target, settings.inputErrorClass);
 
       if (currentForm.checkValidity()) {
         enableButton(submitButton, settings.inactiveButtonClass);
-        // console.log(currentForm);
-        console.log(currentForm.checkValidity());
       }
       else {
         disableButton(submitButton, settings.inactiveButtonClass);
-         console.log(currentForm.checkValidity());
       }
     });
   }, settings)
@@ -209,12 +206,3 @@ popupList.forEach(function (popup) {
     }
   })
 });
-
-// enableValidation({
-//   formSelector: '.popup__form',
-//   inputSelector: '.popup__input-form',
-//   submitButtonSelector: '.popup__save-button',
-//   inactiveButtonClass: 'popup__save-button_disabled',
-//   inputErrorClass: 'popup__input-form_error',
-//   errorClass: '.popup__error_visible'
-// });
