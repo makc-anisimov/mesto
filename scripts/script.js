@@ -32,7 +32,6 @@ const ESC_KEYCODE = 27;
 function openPopup(popupWindow) {
   popupWindow.classList.add('popup_opened');
   document.addEventListener('keydown', handleEscUp);
-  checkButtonOpenPopup(popupWindow);
 }
 
 function closePopup(popupWindow) {
@@ -41,7 +40,6 @@ function closePopup(popupWindow) {
 }
 
 function handleEscUp(evt) {
-  // evt.preventDefault();
   const activePopup = document.querySelector('.popup_opened');
   if (evt.keyCode === ESC_KEYCODE) {
     closePopup(activePopup);
@@ -64,9 +62,9 @@ function submitEditProfile(evt) {
   closePopup(popupElementEditProfile);
 };
 
-function formSubmitAddPhoto(evt) {  //-------------функция добавления фотокарточки
+function addPhotoSubmitForm(evt) {  //-------------функция добавления фотокарточки
   evt.preventDefault();
-  const newCard = [];
+  const newCard = {};
   newCard.link = inputAddPhotoSrcLink.value;
   newCard.name = inputAddPhotoName.value;
   elementsContainer.prepend(createCard(newCard));
@@ -74,6 +72,7 @@ function formSubmitAddPhoto(evt) {  //-------------функция добавле
   resetForm(currentForm);               // очищаем текушую форму
   closePopup(popupElementAddPhoto); //  закрываем окно формы
 };
+
 
 function createCard(dataCard) {  //-----------------------функция создания карточки--------------
   const card = templateElement.cloneNode(true); // из темплейта создаем шаблон карточки.
@@ -84,6 +83,7 @@ function createCard(dataCard) {  //-----------------------функция соз�
   cardPhoto.alt = dataCard.name;
   //--------навешиваем слушиватели------------
   const cardLikeButton = card.querySelector('.element__like'); //ищем  кнопку like
+
   cardLikeButton.addEventListener('click', () => {
     cardLikeButton.classList.toggle('element__like_active');   // по клику выполняем смену лайка
   });
@@ -102,20 +102,11 @@ function createCard(dataCard) {  //-----------------------функция соз�
 };
 
 function renderCards(arrayCards) {  //-----------функция создания списка элементов в DOM из массива данных "карточки"
-  const arrayCardsReversed = arrayCards.reverse();   // перевернули массив чтобы складывать в Dom c последнего до первого
-  arrayCardsReversed.forEach(function (item) {
-    elementsContainer.prepend(createCard(item));
+  arrayCards.forEach(function (item) {
+    elementsContainer.append(createCard(item));
   });
 };
 
-function isValid(input, nameInputFormErrorClass) {
-  const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
-  errorSpan.textContent = input.validationMessage;
-  if (!input.validity.valid) {
-    input.classList.add(nameInputFormErrorClass);
-  }
-  else input.classList.remove(nameInputFormErrorClass);
-}
 
 function eraseForm(popup) {
   const currentForm = popup.querySelector('.popup__form');
@@ -124,6 +115,7 @@ function eraseForm(popup) {
     span.textContent = "";
   })
   currentForm.querySelectorAll('.popup__input-form').forEach(function (input) {
+
     input.classList.remove('popup__input-form_error');
   })
 }
@@ -144,32 +136,20 @@ function checkButtonOpenPopup(popup) {    // функция проверки и 
 
   if (form.checkValidity()) {
     enableButton(buttonSave, 'popup__save-button_disabled');
+    // console.log('включили кнопу');
   }
-  else disableButton(buttonSave, 'popup__save-button_disabled');
+  else {
+    disableButton(buttonSave, 'popup__save-button_disabled');
+    // console.log('вЫключили кнопу');
+  }
+
 }
 
-function enableValidation(settings) {
-  const popupFormList = document.querySelectorAll(settings.formSelector); //список всех форм
-  popupFormList.forEach(function (element) {
-    element.addEventListener('input', (evt) => {
-      const currentForm = evt.currentTarget;
-      const submitButton = currentForm.querySelector(settings.submitButtonSelector);
 
-      isValid(evt.target, settings.inputErrorClass);
-
-      if (currentForm.checkValidity()) {
-        enableButton(submitButton, settings.inactiveButtonClass);
-      }
-      else {
-        disableButton(submitButton, settings.inactiveButtonClass);
-      }
-    });
-  }, settings)
-}
 //редактироване профиля---------------------------
 buttonProfileEdit.addEventListener('click', () => {
-  openPopup(popupElementEditProfile);
   fillProfileEditForm();
+  openPopup(popupElementEditProfile);
   checkButtonOpenPopup(popupElementEditProfile);
 })
 
@@ -187,11 +167,10 @@ buttonAddPhoto.addEventListener('click', () => {
   // после открытия попапа надо навесить disable на кнопку, т.к. форма пустая - done!
 })
 buttonClosePopupAddPhoto.addEventListener('click', () => {
-  // resetForm(popupElementAddPhoto.querySelector('.popup__form'));
   eraseForm(popupElementAddPhoto);
   closePopup(popupElementAddPhoto);
 })
-formAddPhoto.addEventListener('submit', formSubmitAddPhoto);
+formAddPhoto.addEventListener('submit', addPhotoSubmitForm);
 
 //------------
 buttonClosePopupWiewPhoto.addEventListener('click', () => {
