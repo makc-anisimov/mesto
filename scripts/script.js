@@ -129,29 +129,23 @@ function enableButton(button, nameDisableClass) {
   button.removeAttribute('disabled');
   button.classList.remove(nameDisableClass);
 }
-
-function checkButtonOpenPopup(popup) {    // функция проверки и изменения статуса кнопки сохранения при открытии попапа
-  const form = popup.querySelector('.popup__form');
-  const buttonSave = popup.querySelector('.popup__save-button');
-
+// функция проверки и изменения статуса кнопки сохранения при открытии попапа
+function checkButtonOpenPopup(form) {
+  const buttonSave = form.querySelector('.popup__save-button');
   if (form.checkValidity()) {
     enableButton(buttonSave, 'popup__save-button_disabled');
-    // console.log('включили кнопу');
   }
   else {
     disableButton(buttonSave, 'popup__save-button_disabled');
-    // console.log('вЫключили кнопу');
   }
-
 }
-
 
 //редактироване профиля---------------------------
 buttonProfileEdit.addEventListener('click', () => {
   fillProfileEditForm();
   openPopup(popupElementEditProfile);
-  checkButtonOpenPopup(popupElementEditProfile);
-})
+  checkButtonOpenPopup(formEditProfile);
+});
 
 formEditProfile.addEventListener('submit', submitEditProfile);
 
@@ -163,7 +157,7 @@ buttonClosePopupEditProfile.addEventListener('click', () => {
 //--------добавление фото---------------
 buttonAddPhoto.addEventListener('click', () => {
   openPopup(popupElementAddPhoto);
-  checkButtonOpenPopup(popupElementAddPhoto);
+  checkButtonOpenPopup(formAddPhoto);
   // после открытия попапа надо навесить disable на кнопку, т.к. форма пустая - done!
 })
 buttonClosePopupAddPhoto.addEventListener('click', () => {
