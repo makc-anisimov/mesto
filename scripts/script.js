@@ -40,8 +40,9 @@ function closePopup(popupWindow) {
 }
 
 function handleEscUp(evt) {
-  const activePopup = document.querySelector('.popup_opened');
   if (evt.keyCode === ESC_KEYCODE) {
+    const activePopup = document.querySelector('.popup_opened');
+    eraseForm(activePopup);
     closePopup(activePopup);
   }
 }
@@ -62,7 +63,7 @@ function submitEditProfile(evt) {
   closePopup(popupElementEditProfile);
 };
 
-function addPhotoSubmitForm(evt) {  //-------------функция добавления фотокарточки
+function handlePhotoSubmit(evt) {  //-------------функция добавления фотокарточки
   evt.preventDefault();
   const newCard = {};
   newCard.link = inputAddPhotoSrcLink.value;
@@ -108,18 +109,6 @@ function renderCards(arrayCards) {  //-----------функция создания
 };
 
 
-function eraseForm(popup) {
-  const currentForm = popup.querySelector('.popup__form');
-  resetForm(currentForm);
-  currentForm.querySelectorAll('.popup__error_visible').forEach(function (span) {
-    span.textContent = "";
-  })
-  currentForm.querySelectorAll('.popup__input-form').forEach(function (input) {
-
-    input.classList.remove('popup__input-form_error');
-  })
-}
-
 function disableButton(button, nameDisableClass) {
   button.setAttribute('disabled', true);
   button.classList.add(nameDisableClass);
@@ -164,7 +153,7 @@ buttonClosePopupAddPhoto.addEventListener('click', () => {
   eraseForm(popupElementAddPhoto);
   closePopup(popupElementAddPhoto);
 })
-formAddPhoto.addEventListener('submit', addPhotoSubmitForm);
+formAddPhoto.addEventListener('submit', handlePhotoSubmit);
 
 //------------
 buttonClosePopupWiewPhoto.addEventListener('click', () => {
@@ -175,6 +164,7 @@ renderCards(initialCards);
 popupList.forEach(function (popup) {
   popup.addEventListener('mousedown', (evt) => {    //  функция закрытя попапа по клику
     if (evt.currentTarget === evt.target) {
+      eraseForm(popup);
       closePopup(popup);
     }
   })

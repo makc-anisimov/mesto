@@ -1,19 +1,21 @@
 
-function showInputError (input, nameInputFormErrorClass) {
+function showInputError(input, nameInputFormErrorClass) {
+  const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
+  errorSpan.textContent = input.validationMessage;
   input.classList.add(nameInputFormErrorClass);
 }
 
-function hideInputError (input, nameInputFormErrorClass) {
+function hideInputError(input, nameInputFormErrorClass) {
+  const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
+  errorSpan.textContent = "";
   input.classList.remove(nameInputFormErrorClass);
 }
 
 function isValid(input, nameInputFormErrorClass) {
-  const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
-  errorSpan.textContent = input.validationMessage;
   if (!input.validity.valid) {
     showInputError(input, nameInputFormErrorClass)
   }
-  else  hideInputError(input, nameInputFormErrorClass)
+  else hideInputError(input, nameInputFormErrorClass)
 }
 
 function enableValidation(settings) {
@@ -25,6 +27,17 @@ function enableValidation(settings) {
       checkButtonOpenPopup(currentForm);
     });
   }, settings)
+}
+
+function eraseForm(popup) {
+  const currentForm = popup.querySelector('.popup__form');
+  resetForm(currentForm);
+  currentForm.querySelectorAll('.popup__error_visible').forEach(function (span) {
+    span.textContent = "";
+  })
+  currentForm.querySelectorAll('.popup__input-form').forEach(function (input) {
+    hideInputError(input, 'popup__input-form_error');
+  })
 }
 
 enableValidation({
