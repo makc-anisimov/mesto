@@ -42,7 +42,6 @@ function closePopup(popupWindow) {
 function handleEscUp(evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     const activePopup = document.querySelector('.popup_opened');
-    eraseForm(activePopup);
     closePopup(activePopup);
   }
 }
@@ -108,29 +107,9 @@ function renderCards(arrayCards) {  //-----------функция создания
   });
 };
 
-
-function disableButton(button, nameDisableClass) {
-  button.setAttribute('disabled', true);
-  button.classList.add(nameDisableClass);
-}
-
-function enableButton(button, nameDisableClass) {
-  button.removeAttribute('disabled');
-  button.classList.remove(nameDisableClass);
-}
-// функция проверки и изменения статуса кнопки сохранения при открытии попапа
-function checkButtonOpenPopup(form) {
-  const buttonSave = form.querySelector('.popup__save-button');
-  if (form.checkValidity()) {
-    enableButton(buttonSave, 'popup__save-button_disabled');
-  }
-  else {
-    disableButton(buttonSave, 'popup__save-button_disabled');
-  }
-}
-
 //редактироване профиля---------------------------
 buttonProfileEdit.addEventListener('click', () => {
+  eraseForm(popupElementEditProfile);
   fillProfileEditForm();
   openPopup(popupElementEditProfile);
   checkButtonOpenPopup(formEditProfile);
@@ -139,18 +118,17 @@ buttonProfileEdit.addEventListener('click', () => {
 formEditProfile.addEventListener('submit', submitEditProfile);
 
 buttonClosePopupEditProfile.addEventListener('click', () => {
-  eraseForm(popupElementEditProfile); //очищаем форму перед закрытием
   closePopup(popupElementEditProfile);
 })
 
 //--------добавление фото---------------
 buttonAddPhoto.addEventListener('click', () => {
-  openPopup(popupElementAddPhoto);
+  eraseForm(popupElementAddPhoto);
   checkButtonOpenPopup(formAddPhoto);
+  openPopup(popupElementAddPhoto);
   // после открытия попапа надо навесить disable на кнопку, т.к. форма пустая - done!
 })
 buttonClosePopupAddPhoto.addEventListener('click', () => {
-  eraseForm(popupElementAddPhoto);
   closePopup(popupElementAddPhoto);
 })
 formAddPhoto.addEventListener('submit', handlePhotoSubmit);
@@ -164,7 +142,6 @@ renderCards(initialCards);
 popupList.forEach(function (popup) {
   popup.addEventListener('mousedown', (evt) => {    //  функция закрытя попапа по клику
     if (evt.currentTarget === evt.target) {
-      eraseForm(popup);
       closePopup(popup);
     }
   })

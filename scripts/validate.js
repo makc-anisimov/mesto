@@ -40,6 +40,26 @@ function eraseForm(popup) {
   })
 }
 
+function disableButton(button, nameDisableClass) {
+  button.setAttribute('disabled', true);
+  button.classList.add(nameDisableClass);
+}
+
+function enableButton(button, nameDisableClass) {
+  button.removeAttribute('disabled');
+  button.classList.remove(nameDisableClass);
+}
+// функция проверки и изменения статуса кнопки сохранения при открытии попапа
+function checkButtonOpenPopup(form) {
+  const buttonSave = form.querySelector('.popup__save-button');
+  if (form.checkValidity()) {
+    enableButton(buttonSave, 'popup__save-button_disabled');
+  }
+  else {
+    disableButton(buttonSave, 'popup__save-button_disabled');
+  }
+}
+
 enableValidation({
   formSelector: '.popup__form',
   inputSelector: '.popup__input-form',
