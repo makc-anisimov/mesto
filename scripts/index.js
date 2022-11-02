@@ -1,3 +1,8 @@
+// import * from "."
+import { Card } from "./Card.js";
+import { initialCards } from "./consts.js";
+import { settingsForm as settings} from "./consts.js";
+
 
 const popupList = document.querySelectorAll('.popup');   //список всех попапов
 const popupElementEditProfile = document.querySelector('.popup_edit-profile'); //попап окно редактирования профиля
@@ -64,48 +69,35 @@ function submitEditProfile(evt) {
 
 function handlePhotoSubmit(evt) {  //-------------функция добавления фотокарточки
   evt.preventDefault();
-  const newCard = {};
-  newCard.link = inputAddPhotoSrcLink.value;
-  newCard.name = inputAddPhotoName.value;
-  elementsContainer.prepend(createCard(newCard));
+  const dataNewCard = {};
+  dataNewCard.link = inputAddPhotoSrcLink.value;
+  dataNewCard.name = inputAddPhotoName.value;
+
+  const cardItem = new Card(dataNewCard, templateElement);
+    elementsContainer.prepend(cardItem.getRenderedCard());
+
   const currentForm = evt.target;
   resetForm(currentForm);               // очищаем текушую форму
   closePopup(popupElementAddPhoto); //  закрываем окно формы
 };
 
-
-function createCard(dataCard) {  //-----------------------функция создания карточки--------------
-  const card = templateElement.cloneNode(true); // из темплейта создаем шаблон карточки.
-  const cardPhoto = card.querySelector('.element__photo'); //фото в карточке
-  const cardTitle = card.querySelector('.element__title');  //название места
-  cardTitle.textContent = dataCard.name;
-  cardPhoto.src = dataCard.link;
-  cardPhoto.alt = dataCard.name;
-  //--------навешиваем слушиватели------------
-  const cardLikeButton = card.querySelector('.element__like'); //ищем  кнопку like
-
-  cardLikeButton.addEventListener('click', () => {
-    cardLikeButton.classList.toggle('element__like_active');   // по клику выполняем смену лайка
-  });
-  cardPhoto.addEventListener('click', () => {  //просмотр фото
-    photoOpened.src = dataCard.link; //передаем в попап адрес фото
-    photoOpened.alt = dataCard.name; //передать в попапе альт для фото из названия карточки
-    photoTitle.textContent = dataCard.name; //передать в попап заголовок из названия карточки
+export function handleOpenPhotoPopup (name, link) {
+    photoOpened.src = link; //передаем в попап адрес фото
+    photoOpened.alt = name; //передать в попапе альт для фото из названия карточки
+    photoTitle.textContent = name; //передать в попап заголовок из названия карточки
     openPopup(popupElementWievPhoto);
-  });
-  const cardRemoveButton = card.querySelector('.element__delete-button');
-  cardRemoveButton.addEventListener('click', () => {
-    const removedCard = cardRemoveButton.closest('.element');
-    removedCard.remove();
-  });
-  return card; //получили карточку с данными
-};
+}
 
 function renderCards(arrayCards) {  //-----------функция создания списка элементов в DOM из массива данных "карточки"
   arrayCards.forEach(function (item) {
-    elementsContainer.append(createCard(item));
+    const cardItem = new Card(item, templateElement);
+    elementsContainer.append(cardItem.getRenderedCard());
+    // elementsContainer.append(createCard(item));
   });
+
 };
+
+
 
 //редактироване профиля---------------------------
 buttonProfileEdit.addEventListener('click', () => {
@@ -146,3 +138,66 @@ popupList.forEach(function (popup) {
     }
   })
 });
+
+function showInputError(input, nameInputFormErrorClass) {
+  const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
+  errorSpan.textContent = input.validationMessage;
+  input.classList.add(nameInputFormErrorClass);
+}
+
+function hideInputError(input, nameInputFormErrorClass) {
+  const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
+  errorSpan.textContent = "";
+  input.classList.remove(nameInputFormErrorClass);
+}
+
+function isValid(input, nameInputFormErrorClass) {
+  if (!input.validity.valid) {
+    showInputError(input, nameInputFormErrorClass)
+  }
+  else hideInputError(input, nameInputFormErrorClass)
+}
+
+function enableValidation(settings) {
+  const popupFormList = document.querySelectorAll(settings.formSelector); //список всех форм
+  popupFormList.forEach(function (element) {
+    element.addEventListener('input', (evt) => {
+      const currentForm = evt.currentTarget;
+      isValid(evt.target, settings.inputErrorClass);
+      checkButtonOpenPopup(currentForm);
+    });
+  }, settings)
+}
+
+function eraseForm(popup) {
+  const currentForm = popup.querySelector('.popup__form');
+  resetForm(currentForm);
+  currentForm.querySelectorAll('.popup__error_visible').forEach(function (span) {
+    span.textContent = "";
+  })
+  currentForm.querySelectorAll('.popup__input-form').forEach(function (input) {
+    hideInputError(input, 'popup__input-form_error');
+  })
+}
+
+function disableButton(button, nameDisableClass) {
+  button.setAttribute('disabled', true);
+  button.classList.add(nameDisableClass);
+}
+
+function enableButton(button, nameDisableClass) {
+  button.removeAttribute('disabled');
+  button.classList.remove(nameDisableClass);
+}
+// функция проверки и изменения статуса кнопки сохранения при открытии попапа
+function checkButtonOpenPopup(form) {
+  const buttonSave = form.querySelector('.popup__save-button');
+  if (form.checkValidity()) {
+    enableButton(buttonSave, 'popup__save-button_disabled');
+  }
+  else {
+    disableButton(buttonSave, 'popup__save-button_disabled');
+  }
+}
+
+enableValidation(settings);
