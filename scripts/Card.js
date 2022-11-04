@@ -1,5 +1,4 @@
-
-import { handleOpenPhotoPopup } from "./index.js";
+import { handleOpenPhotoPopup } from "./utils.js";
 
 export class Card {
   constructor(dataCard, template) {

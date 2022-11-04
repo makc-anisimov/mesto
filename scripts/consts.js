@@ -27,8 +27,11 @@ export const inputAddPhotoName = popupElementAddPhoto.querySelector('#inputMesto
 export const inputAddPhotoSrcLink = popupElementAddPhoto.querySelector('#inputMestoLink'); // инпут ссылки на фото в попапе добавления фото
 
 export const ESC_KEYCODE = 27;
-
-// export default
+export const popupOpenedClass = 'popup_opened';
+export const popupSaveButtonClass = 'popup__save-button';
+export const popupInputFormClass = 'popup__input-form';
+export const popupFormClass = 'popup__form';
+export const popupErrorVisibleClass = 'popup__error_visible';
 
 export const initialCards = [
   {
