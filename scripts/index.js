@@ -17,19 +17,17 @@ import {
   openPopup,
   closePopup,
   fillProfileEditForm,
-  checkButtonOpenPopup,
   submitEditProfile,
   renderCards,
   handlePhotoSubmit,
-  eraseForm
 } from "./utils.js"
 
 //редактироване профиля---------------------------
 buttonProfileEdit.addEventListener('click', () => {
-  eraseForm(popupElementEditProfile);
+  // eraseForm(popupElementEditProfile);
   fillProfileEditForm();
   openPopup(popupElementEditProfile);
-  checkButtonOpenPopup(formEditProfile);
+  // checkButtonOpenPopup(formEditProfile);
 });
 
 formEditProfile.addEventListener('submit', submitEditProfile);
@@ -40,21 +38,21 @@ buttonClosePopupEditProfile.addEventListener('click', () => {
 
 //--------добавление фото---------------
 buttonAddPhoto.addEventListener('click', () => {
-  eraseForm(popupElementAddPhoto);
-  checkButtonOpenPopup(formAddPhoto);
   openPopup(popupElementAddPhoto);
-  // после открытия попапа надо навесить disable на кнопку, т.к. форма пустая - done!
 })
+
 buttonClosePopupAddPhoto.addEventListener('click', () => {
   closePopup(popupElementAddPhoto);
 })
+
 formAddPhoto.addEventListener('submit', handlePhotoSubmit);
 
 //------------
 buttonClosePopupWiewPhoto.addEventListener('click', () => {
   closePopup(popupElementWievPhoto);
 })
-renderCards(initialCards);
+
+renderCards(initialCards); // отрисовка карточек
 
 popupList.forEach(function (popup) {
   popup.addEventListener('mousedown', (evt) => {    //  функция закрытя попапа по клику

@@ -1,14 +1,11 @@
 import {
+  settingsForm,
   photoOpened,
   photoTitle,
   popupElementWievPhoto,
   popupElementEditProfile,
   popupElementAddPhoto,
   popupOpenedClass,
-  popupSaveButtonClass,
-  popupInputFormClass,
-  popupFormClass,
-  popupErrorVisibleClass,
   ESC_KEYCODE,
   profileEditName,
   profileEditJob,
@@ -21,13 +18,23 @@ import {
 } from "./consts.js";
 
 import { Card } from "./Card.js";
+import { FormValidator } from "./FormValidator.js";
 
 export function openPopup(popupWindow) {
   popupWindow.classList.add(`${popupOpenedClass}`);
+  const activeForm = popupWindow.querySelector(settingsForm.formSelector);
+  if (activeForm !== null) { // если в попапе есть форма с данными то проверяем ее
+    const validateActiveForm = new FormValidator(settingsForm, activeForm);
+    validateActiveForm.checkButtonOpen();
+  }
   document.addEventListener('keydown', handleEscUp);
 }
+
 export function closePopup(popupWindow) {
   document.removeEventListener('keydown', handleEscUp); // удаляем слушатель ESC перед закрытием!
+  if (popupWindow.querySelector(settingsForm.formSelector) !== null) { // если в попапе есть форма с данными то очищаем ее
+    eraseForm(popupWindow);
+  }
   popupWindow.classList.remove(`${popupOpenedClass}`);
 }
 
@@ -53,29 +60,7 @@ export function fillProfileEditForm() {
   profileEditJob.value = profileJob.textContent;
 };
 
-export function isValid(input, nameInputFormErrorClass) {
-  if (!input.validity.valid) {
-    showInputError(input, nameInputFormErrorClass)
-  }
-  else hideInputError(input, nameInputFormErrorClass)
-}
-export function checkButtonOpenPopup(form) {
-  const buttonSave = form.querySelector(`.${popupSaveButtonClass}`);
-  if (form.checkValidity()) {
-    enableButton(buttonSave, `${popupSaveButtonClass}_disabled`);
-  }
-  else {
-    disableButton(buttonSave, `${popupSaveButtonClass}_disabled`);
-  }
-}
-
-export function showInputError(input, nameInputFormErrorClass) {
-  const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
-  errorSpan.textContent = input.validationMessage;
-  input.classList.add(nameInputFormErrorClass);
-}
-
-export function hideInputError(input, nameInputFormErrorClass) {
+function hideInputError(input, nameInputFormErrorClass) {
   const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
   errorSpan.textContent = "";
   input.classList.remove(nameInputFormErrorClass);
@@ -95,20 +80,9 @@ export function handlePhotoSubmit(evt) {  //-------------функция доба
 
   const cardItem = new Card(dataNewCard, templateElement);
   elementsContainer.prepend(cardItem.getRenderedCard());
-
-  const currentForm = evt.target;
-  resetForm(currentForm);               // очищаем текушую форму
   closePopup(popupElementAddPhoto); //  закрываем окно формы
 };
 
-function disableButton(button, nameDisableClass) {
-  button.setAttribute('disabled', true);
-  button.classList.add(nameDisableClass);
-}
-function enableButton(button, nameDisableClass) {
-  button.removeAttribute('disabled');
-  button.classList.remove(nameDisableClass);
-}
 export function renderCards(arrayCards) {  //-----------функция создания списка элементов в DOM из массива данных "карточки"
   arrayCards.forEach(function (item) {
     const cardItem = new Card(item, templateElement);
@@ -118,12 +92,12 @@ export function renderCards(arrayCards) {  //-----------функция созд�
 };
 
 export function eraseForm(popup) {
-  const currentForm = popup.querySelector(`.${popupFormClass}`);
+  const currentForm = popup.querySelector(settingsForm.formSelector);
   resetForm(currentForm);
-  currentForm.querySelectorAll(`.${popupErrorVisibleClass}`).forEach(function (span) {
+  currentForm.querySelectorAll(settingsForm.errorClass).forEach(function (span) {
     span.textContent = "";
   })
-  currentForm.querySelectorAll(`.${popupInputFormClass}`).forEach(function (input) {
-    hideInputError(input, `${popupInputFormClass}_error`);
+  currentForm.querySelectorAll(settingsForm.inputSelector).forEach(function (input) {
+    hideInputError(input, settingsForm.inputErrorClass);
   })
 }

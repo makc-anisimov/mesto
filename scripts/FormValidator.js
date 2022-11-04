@@ -1,12 +1,4 @@
 
-import { settingsForm as settings } from "./consts.js";
-import {
-  checkButtonOpenPopup,
-  isValid
- } from "./utils.js";
-
-
-
 export class FormValidator {
   constructor(settings, form) {
     this._form = form;
@@ -20,43 +12,46 @@ export class FormValidator {
 
   enableValidation() {
     this._form.addEventListener('input', (evt) => {
-      // const currentForm = evt.currentTarget;    <= this._form
-      isValid(evt.target, settings.inputErrorClass);
-      this._checkButtonOpen();
+      this._activeInput = evt.target;
+      this._activeSpan = this._activeInput.parentNode.querySelector(`#${this._activeInput.id}-error`);
+      this._isValid(evt.target);
+      this.checkButtonOpen();
     });
   }
 
-  _checkButtonOpen() {
-    checkButtonOpenPopup(this._form);
-  }
   _isValid() {
-
+    if (!this._activeInput.validity.valid) {
+      this._showInputError();
+    }
+    else this._hideInputError()
   }
 
-  // console.log('проверка формы');
-  // console.log(this);
+  _showInputError() {
+    this._activeSpan.textContent = this._activeInput.validationMessage;
+    this._activeInput.classList.add(this._inputErrorClass);
+  }
 
+  _hideInputError() {
+    this._activeSpan.textContent = "";
+    this._activeInput.classList.remove(this._inputErrorClass);
+  }
 
+  checkButtonOpen() {
+    this._buttonSaveForm = this._form.querySelector(this._submitButtonSelector); // кладем кнопку сохр. в перем
+    if (this._form.checkValidity()) {
+      this._enableButton();
+    }
+    else {
+      this._disableButton();
+    }
+  }
 
-
+  _disableButton() {
+    this._buttonSaveForm.setAttribute('disabled', true);
+    this._buttonSaveForm.classList.add(this._inactiveButtonClass);
+  }
+  _enableButton() {
+    this._buttonSaveForm.removeAttribute('disabled');
+    this._buttonSaveForm.classList.remove(this._inactiveButtonClass);
+  }
 }
-
-
-
-// function enableValidation(settings) {
-//   const popupFormList = document.querySelectorAll(settings.formSelector); //список всех форм
-//   popupFormList.forEach(function (element) {
-//     element.addEventListener('input', (evt) => {
-//       const currentForm = evt.currentTarget;
-//       isValid(evt.target, settings.inputErrorClass);
-//       checkButtonOpenPopup(currentForm);
-//     });
-//   }, settings)
-// }
-
-// function isValid(input, nameInputFormErrorClass) {
-//   if (!input.validity.valid) {
-//     showInputError(input, nameInputFormErrorClass)
-//   }
-//   else hideInputError(input, nameInputFormErrorClass)
-// }

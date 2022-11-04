@@ -28,10 +28,6 @@ export const inputAddPhotoSrcLink = popupElementAddPhoto.querySelector('#inputMe
 
 export const ESC_KEYCODE = 27;
 export const popupOpenedClass = 'popup_opened';
-export const popupSaveButtonClass = 'popup__save-button';
-export const popupInputFormClass = 'popup__input-form';
-export const popupFormClass = 'popup__form';
-export const popupErrorVisibleClass = 'popup__error_visible';
 
 export const initialCards = [
   {
@@ -60,7 +56,7 @@ export const initialCards = [
   }
 ];
 
-export const settingsForm  = {
+export const settingsForm = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input-form',
   submitButtonSelector: '.popup__save-button',
