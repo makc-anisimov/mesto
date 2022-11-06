@@ -8,36 +8,37 @@ export class FormValidator {
     this._inactiveButtonClass = settings.inactiveButtonClass;
     this._inputErrorClass = settings.inputErrorClass;
     this._errorClass = settings.errorClass;
+    this._buttonSaveForm = this._form.querySelector(this._submitButtonSelector);
   }
 
-  enableValidation() {
-    this._form.addEventListener('input', (evt) => {
-      this._activeInput = evt.target;
-      this._activeSpan = this._activeInput.parentNode.querySelector(`#${this._activeInput.id}-error`);
-      this._isValid(evt.target);
-      this.checkButtonOpen();
-    });
+  _showInputError(input) {
+    input.classList.add(this._inputErrorClass);
+    this._form.querySelector(`#${input.id}-error`).textContent = input.validationMessage;
   }
 
-  _isValid() {
-    if (!this._activeInput.validity.valid) {
-      this._showInputError();
+  _hideInputError(input) {
+    input.classList.remove(this._inputErrorClass);
+    this._form.querySelector(`#${input.id}-error`).textContent = "";
+  }
+
+  _isValid(input) {
+    if (!input.validity.valid) {
+      this._showInputError(input);
     }
-    else this._hideInputError()
+    else this._hideInputError(input);
   }
 
-  _showInputError() {
-    this._activeSpan.textContent = this._activeInput.validationMessage;
-    this._activeInput.classList.add(this._inputErrorClass);
+  _disableButton() {
+    this._buttonSaveForm.setAttribute('disabled', true);
+    this._buttonSaveForm.classList.add(this._inactiveButtonClass);
   }
 
-  _hideInputError() {
-    this._activeSpan.textContent = "";
-    this._activeInput.classList.remove(this._inputErrorClass);
+  _enableButton() {
+    this._buttonSaveForm.removeAttribute('disabled');
+    this._buttonSaveForm.classList.remove(this._inactiveButtonClass);
   }
 
   checkButtonOpen() {
-    this._buttonSaveForm = this._form.querySelector(this._submitButtonSelector); // кладем кнопку сохр. в перем
     if (this._form.checkValidity()) {
       this._enableButton();
     }
@@ -46,12 +47,20 @@ export class FormValidator {
     }
   }
 
-  _disableButton() {
-    this._buttonSaveForm.setAttribute('disabled', true);
-    this._buttonSaveForm.classList.add(this._inactiveButtonClass);
+   eraseForm() {
+    this._form.reset();
+    this._form.querySelectorAll(this._errorClass).forEach((span) => {
+      span.textContent = "";
+    })
+    this._form.querySelectorAll(this._inputSelector).forEach((input) => {
+      this._hideInputError(input);
+    })
   }
-  _enableButton() {
-    this._buttonSaveForm.removeAttribute('disabled');
-    this._buttonSaveForm.classList.remove(this._inactiveButtonClass);
+
+  enableValidation() {
+    this._form.addEventListener('input', (evt) => {
+      this._isValid(evt.target);
+      this.checkButtonOpen();
+    });
   }
 }

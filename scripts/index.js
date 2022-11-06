@@ -10,7 +10,9 @@ import {
   popupList,
   popupElementAddPhoto,
   popupElementEditProfile,
-  popupElementWievPhoto
+  popupElementWievPhoto,
+  formEditProfile,
+  formAddPhoto
 } from "./consts.js";
 
 import {
@@ -22,12 +24,18 @@ import {
   handlePhotoSubmit,
 } from "./utils.js"
 
+const formEditProfileValidator = new FormValidator(settings, formEditProfile);
+const formAddPhotoValidator = new FormValidator(settings, formAddPhoto);
+
+formEditProfileValidator.enableValidation();
+formAddPhotoValidator.enableValidation();
+
 //редактироване профиля---------------------------
 buttonProfileEdit.addEventListener('click', () => {
-  // eraseForm(popupElementEditProfile);
+  formEditProfileValidator.eraseForm();
   fillProfileEditForm();
+  formEditProfileValidator.checkButtonOpen();
   openPopup(popupElementEditProfile);
-  // checkButtonOpenPopup(formEditProfile);
 });
 
 formEditProfile.addEventListener('submit', submitEditProfile);
@@ -38,6 +46,8 @@ buttonClosePopupEditProfile.addEventListener('click', () => {
 
 //--------добавление фото---------------
 buttonAddPhoto.addEventListener('click', () => {
+  formAddPhotoValidator.eraseForm();
+  formAddPhotoValidator.checkButtonOpen();
   openPopup(popupElementAddPhoto);
 })
 
@@ -61,9 +71,3 @@ popupList.forEach(function (popup) {
     }
   })
 });
-
-const popupFormList = document.querySelectorAll(settings.formSelector); //список всех форм
-popupFormList.forEach(function (element) {
-  const currentFormValidator = new FormValidator(settings, element);
-  currentFormValidator.enableValidation();
-}, settings)
