@@ -21,6 +21,7 @@ export const profileEditName = popupElementEditProfile.querySelector('#inputName
 export const profileEditJob = popupElementEditProfile.querySelector('#inputJob');
 
 export const elementsContainer = document.querySelector('.elements__list'); //NodeList всех карточек DOM
+// export const templateElement = document.querySelector('.element-template').content; // шаблон карточки
 
 export const inputAddPhotoName = popupElementAddPhoto.querySelector('#inputMestoName'); //инпут названия в попапе добавления фото
 export const inputAddPhotoSrcLink = popupElementAddPhoto.querySelector('#inputMestoLink'); // инпут ссылки на фото в попапе добавления фото

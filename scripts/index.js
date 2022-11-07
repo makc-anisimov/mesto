@@ -24,6 +24,11 @@ import {
   handlePhotoSubmit,
 } from "./utils.js"
 
+// console.log(document.querySelector('.element-template').content.querySelector('.element'));
+// console.log(document.querySelector(nameTemplateSelector).content.querySelector('.element'));
+// console.log(document.querySelector('.element'));
+
+
 const formEditProfileValidator = new FormValidator(settings, formEditProfile);
 const formAddPhotoValidator = new FormValidator(settings, formAddPhoto);
 
@@ -71,3 +76,4 @@ popupList.forEach(function (popup) {
     }
   })
 });
+
