@@ -1,4 +1,6 @@
 import { FormValidator } from "./FormValidator.js";
+import { Section } from "./Section.js";
+import { Popup } from "./Popup.js";
 import {
   initialCards,
   settingsForm as settings,
@@ -20,13 +22,10 @@ import {
   closePopup,
   fillProfileEditForm,
   submitEditProfile,
-  renderCards,
+  // renderCards,
+  createCard,
   handlePhotoSubmit,
 } from "./utils.js"
-
-// console.log(document.querySelector('.element-template').content.querySelector('.element'));
-// console.log(document.querySelector(nameTemplateSelector).content.querySelector('.element'));
-// console.log(document.querySelector('.element'));
 
 
 const formEditProfileValidator = new FormValidator(settings, formEditProfile);
@@ -37,17 +36,20 @@ formAddPhotoValidator.enableValidation();
 
 //редактироване профиля---------------------------
 buttonProfileEdit.addEventListener('click', () => {
-  formEditProfileValidator.eraseForm();
-  fillProfileEditForm();
-  formEditProfileValidator.checkButtonOpen();
-  openPopup(popupElementEditProfile);
+  // formEditProfileValidator.eraseForm();
+  // fillProfileEditForm();
+  // formEditProfileValidator.checkButtonOpen();
+  // openPopup(popupElementEditProfile);
+  const popupProfileEdit = new Popup('.popup_type_profile-edit');
+  popupProfileEdit.setEventListeners();
+  popupProfileEdit.open();
 });
 
 formEditProfile.addEventListener('submit', submitEditProfile);
 
-buttonClosePopupEditProfile.addEventListener('click', () => {
-  closePopup(popupElementEditProfile);
-})
+// buttonClosePopupEditProfile.addEventListener('click', () => {
+//   closePopup(popupElementEditProfile);
+// })
 
 //--------добавление фото---------------
 buttonAddPhoto.addEventListener('click', () => {
@@ -67,13 +69,24 @@ buttonClosePopupWiewPhoto.addEventListener('click', () => {
   closePopup(popupElementWievPhoto);
 })
 
-renderCards(initialCards); // отрисовка карточек
+// renderCards(initialCards); // отрисовка карточек
 
-popupList.forEach(function (popup) {
-  popup.addEventListener('mousedown', (evt) => {    //  функция закрытя попапа по клику
-    if (evt.currentTarget === evt.target) {
-      closePopup(popup);
-    }
-  })
-});
+
+// popupList.forEach(function (popup) {
+//   popup.addEventListener('mousedown', (evt) => {    //  функция закрытя попапа по клику
+//     if (evt.currentTarget === evt.target) {
+//       closePopup(popup);
+//     }
+//   })
+// });
+
+// отрисовка карточек через экз класса Section
+const section = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = createCard(item);
+    section.addItem(card);
+  }
+}, '.elements__list')
+section.renderAllitems();
 

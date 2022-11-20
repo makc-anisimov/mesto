@@ -18,8 +18,8 @@ import {
 import { Card } from "./Card.js";
 
 export function openPopup(popupWindow) {
-  popupWindow.classList.add(popupOpenedClass);
-  document.addEventListener('keydown', handleEscUp);
+  // popupWindow.classList.add(popupOpenedClass);
+  // document.addEventListener('keydown', handleEscUp);
 }
 
 export function closePopup(popupWindow) {
@@ -53,7 +53,7 @@ export function submitEditProfile(evt) {
   closePopup(popupElementEditProfile);
 };
 
-function createCard(dataCard) {
+export function createCard(dataCard) {
   const cardItem = new Card(dataCard, '.element-template');
   return cardItem.getRenderedCard();
 }
@@ -68,8 +68,8 @@ export function handlePhotoSubmit(evt) {  //-------------функция доба
   closePopup(popupElementAddPhoto); //  закрываем окно формы
 };
 
-export function renderCards(arrayCards) {  //-----------функция создания списка элементов в DOM из массива данных "карточки"
-  arrayCards.forEach(function (item) {
-    elementsContainer.append(createCard(item));
-  });
-};
+// export function renderCards(arrayCards) {  //-----------функция создания списка элементов в DOM из массива данных "карточки"
+//   arrayCards.forEach(function (item) {
+//     elementsContainer.append(createCard(item));
+//   });
+// };
