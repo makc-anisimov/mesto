@@ -1,4 +1,3 @@
-// import { handleOpenPhotoPopup } from "./utils.js";
 
 export class Card {
   constructor(dataCard, nameTemplateSelector, handleCardClick) {
