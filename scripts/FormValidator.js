@@ -47,7 +47,7 @@ export class FormValidator {
     }
   }
 
-   eraseForm() {
+  eraseForm() {
     this._form.reset();
     this._form.querySelectorAll(this._errorClass).forEach((span) => {
       span.textContent = "";
