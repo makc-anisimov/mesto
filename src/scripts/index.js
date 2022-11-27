@@ -37,8 +37,8 @@ const createCard = (dataCard) => {
 
 const popupEditProfile = new PopupWithForm(
   '.popup_type_profile-edit',
-  (evt) => {
-    userInfo.setUserInfo(evt);
+  (dataProfile) => {
+    userInfo.setUserInfo(dataProfile);
   }
 );
 
