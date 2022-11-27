@@ -1,21 +1,21 @@
-import {
-  photoOpened,
-  photoTitle,
-  popupElementWievPhoto,
-  popupElementEditProfile,
-  popupElementAddPhoto,
-  popupOpenedClass,
-  ESC_KEYCODE,
-  profileEditName,
-  profileEditJob,
-  profileName,
-  profileJob,
-  elementsContainer,
-  inputAddPhotoSrcLink,
-  inputAddPhotoName
-} from "./consts.js";
+// import {
+//   // photoOpened,
+//   // photoTitle,
+//   // popupElementWievPhoto,
+//   // popupElementEditProfile,
+//   // popupElementAddPhoto,
+//   // popupOpenedClass,
+//   // ESC_KEYCODE,
+//   // profileEditName,
+//   // profileEditJob,
+//   // profileName,
+//   // profileJob,
+//   // elementsContainer,
+//   // inputAddPhotoSrcLink,
+//   // inputAddPhotoName
+// } from "./consts.js";
 
-import { Card } from "./Card.js";
+// import { Card } from "./Card.js";
 
 // export function openPopup(popupWindow) {
 //   // popupWindow.classList.add(popupOpenedClass);
@@ -41,31 +41,31 @@ import { Card } from "./Card.js";
 //   }
 // }
 
-export function fillProfileEditForm() {
-  profileEditName.value = profileName.textContent;
-  profileEditJob.value = profileJob.textContent;
-};
+// export function fillProfileEditForm() {
+//   profileEditName.value = profileName.textContent;
+//   profileEditJob.value = profileJob.textContent;
+// };
 
-export function submitEditProfile(evt) {
-  // evt.preventDefault();
-  profileName.textContent = profileEditName.value;
-  profileJob.textContent = profileEditJob.value;
-  // closePopup(popupElementEditProfile);
-};
+// export function submitEditProfile(evt) {
+//   // evt.preventDefault();
+//   profileName.textContent = profileEditName.value;
+//   profileJob.textContent = profileEditJob.value;
+//   // closePopup(popupElementEditProfile);
+// };
 
 // export function createCard(dataCard) {
 //   const cardItem = new Card(dataCard, '.element-template');
 //   return cardItem.getRenderedCard();
 // }
 
-export function handlePhotoSubmit(evt) {  //-------------функция добавления фотокарточки
-  // evt.preventDefault();
-  const dataNewCard = {};
-  dataNewCard.link = inputAddPhotoSrcLink.value;
-  dataNewCard.name = inputAddPhotoName.value;
-  elementsContainer.prepend(createCard(dataNewCard));
-  // closePopup(popupElementAddPhoto); //  закрываем окно формы
-};
+// export function handlePhotoSubmit(evt) {  //-------------функция добавления фотокарточки
+//   // evt.preventDefault();
+//   const dataNewCard = {};
+//   dataNewCard.link = inputAddPhotoSrcLink.value;
+//   dataNewCard.name = inputAddPhotoName.value;
+//   elementsContainer.prepend(createCard(dataNewCard));
+//   // closePopup(popupElementAddPhoto); //  закрываем окно формы
+// };
 
 // export function renderCards(arrayCards) {  //-----------функция создания списка элементов в DOM из массива данных "карточки"
 //   arrayCards.forEach(function (item) {

@@ -1,30 +1,30 @@
-export const popupList = document.querySelectorAll('.popup');   //список всех попапов
-export const popupElementEditProfile = document.querySelector('.popup_type_profile-edit'); //попап окно редактирования профиля
-export const popupElementAddPhoto = document.querySelector('.popup_type_add-photo');       //попап окно добавления фото
+// export const popupList = document.querySelectorAll('.popup');   //список всех попапов
+// export const popupElementEditProfile = document.querySelector('.popup_type_profile-edit'); //попап окно редактирования профиля
+// export const popupElementAddPhoto = document.querySelector('.popup_type_add-photo');       //попап окно добавления фото
 export const formEditProfile = document.forms.formEditProfile;
 export const formAddPhoto = document.forms.formAddPhoto;
 
-export const popupElementWievPhoto = document.querySelector('.popup_wiew-photo');       //попап окно просмотра фото
-export const photoOpened = popupElementWievPhoto.querySelector('.popup__photo-opened');
-export const photoTitle = popupElementWievPhoto.querySelector('.popup__photo-title');
+// export const popupElementWievPhoto = document.querySelector('.popup_wiew-photo');       //попап окно просмотра фото
+// export const photoOpened = popupElementWievPhoto.querySelector('.popup__photo-opened');
+// export const photoTitle = popupElementWievPhoto.querySelector('.popup__photo-title');
 
 export const buttonProfileEdit = document.querySelector('.profile__edit');      //кнопка редакт профиля
 export const buttonAddPhoto = document.querySelector('.profile__add-button');   //кнопка добавления фото
 
-export const buttonClosePopupEditProfile = popupElementEditProfile.querySelector('.popup__close-button'); //кнопка закрытия попапа редакт-я. профия
-export const buttonClosePopupAddPhoto = popupElementAddPhoto.querySelector('.popup__close-button');//кнопка закрытия попапа добавления фото
-export const buttonClosePopupWiewPhoto = popupElementWievPhoto.querySelector('.popup__close-button'); //кнопка закрытия попапа просмотра фото
+// export const buttonClosePopupEditProfile = popupElementEditProfile.querySelector('.popup__close-button'); //кнопка закрытия попапа редакт-я. профия
+// export const buttonClosePopupAddPhoto = popupElementAddPhoto.querySelector('.popup__close-button');//кнопка закрытия попапа добавления фото
+// export const buttonClosePopupWiewPhoto = popupElementWievPhoto.querySelector('.popup__close-button'); //кнопка закрытия попапа просмотра фото
 
-export const profileName = document.querySelector('.profile__name');
-export const profileJob = document.querySelector('.profile__job');
-export const profileEditName = popupElementEditProfile.querySelector('#inputName');
-export const profileEditJob = popupElementEditProfile.querySelector('#inputJob');
+// export const profileName = document.querySelector('.profile__name');
+// export const profileJob = document.querySelector('.profile__job');
+// export const profileEditName = popupElementEditProfile.querySelector('#inputName');
+// export const profileEditJob = popupElementEditProfile.querySelector('#inputJob');
 
-export const elementsContainer = document.querySelector('.elements__list'); //NodeList всех карточек DOM
+// export const elementsContainer = document.querySelector('.elements__list'); //NodeList всех карточек DOM
 // export const templateElement = document.querySelector('.element-template').content; // шаблон карточки
 
-export const inputAddPhotoName = popupElementAddPhoto.querySelector('#inputMestoName'); //инпут названия в попапе добавления фото
-export const inputAddPhotoSrcLink = popupElementAddPhoto.querySelector('#inputMestoLink'); // инпут ссылки на фото в попапе добавления фото
+// export const inputAddPhotoName = popupElementAddPhoto.querySelector('#inputMestoName'); //инпут названия в попапе добавления фото
+// export const inputAddPhotoSrcLink = popupElementAddPhoto.querySelector('#inputMestoLink'); // инпут ссылки на фото в попапе добавления фото
 
 export const ESC_KEYCODE = 27;
 export const popupOpenedClass = 'popup_opened';

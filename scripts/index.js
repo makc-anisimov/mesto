@@ -1,11 +1,11 @@
 import { FormValidator } from "./FormValidator.js";
 import { Section } from "./Section.js";
-import { Popup } from "./Popup.js";
+// import { Popup } from "./Popup.js";
 import {
   initialCards,
   settingsForm as settings,
   buttonProfileEdit,
-  buttonClosePopupEditProfile,
+  // buttonClosePopupEditProfile,
   buttonAddPhoto,
   // buttonClosePopupAddPhoto,
   // buttonClosePopupWiewPhoto,
@@ -17,15 +17,15 @@ import {
   formAddPhoto
 } from "./consts.js";
 
-import {
-  // openPopup,
-  // closePopup,
-  fillProfileEditForm,
-  submitEditProfile,
-  // renderCards,
-  // createCard,
-  handlePhotoSubmit,
-} from "./utils.js"
+// import {
+//   // openPopup,
+//   // closePopup,
+//   // fillProfileEditForm,
+//   // submitEditProfile,
+//   // renderCards,
+//   // createCard,
+//   // handlePhotoSubmit,
+// } from "./utils.js"
 import { PopupWithForm } from "./PopupWithForm.js";
 import { UserInfo } from "./UserInfo.js";
 import { PopupWithImage } from "./PopupWithImage.js";
