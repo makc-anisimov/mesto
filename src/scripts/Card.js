@@ -1,7 +1,6 @@
-import { handleOpenPhotoPopup } from "./utils.js";
 
 export class Card {
-  constructor(dataCard, nameTemplateSelector) {
+  constructor(dataCard, nameTemplateSelector, handleCardClick) {
     this._name = dataCard.name;
     this._link = dataCard.link;
     this._card = document.querySelector(nameTemplateSelector).content.querySelector('.element').cloneNode(true);
@@ -9,6 +8,7 @@ export class Card {
     this._cardTitle = this._card.querySelector('.element__title');
     this._cardLikeButton = this._card.querySelector('.element__like');
     this._cardRemoveButton = this._card.querySelector('.element__delete-button');
+    this._handleCardClick = handleCardClick;
   }
 
   _setEventListeners() {
@@ -26,7 +26,10 @@ export class Card {
   }
 
   _handleOpenPhoto() {
-    handleOpenPhotoPopup(this._name, this._link);
+    this._handleCardClick({
+      name: this._name,
+      link: this._link
+    });
   }
 
   getRenderedCard() {

@@ -10,6 +10,6 @@ export class Section {
     });
   }
   addItem(itemHtmlElement) {
-    this._containerElements.append(itemHtmlElement);
+    this._containerElements.prepend(itemHtmlElement);
   }
 }
