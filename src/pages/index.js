@@ -1,6 +1,6 @@
-import '../pages/index.css';
-import { FormValidator } from "./FormValidator.js";
-import { Section } from "./Section.js";
+import './index.css';
+import { FormValidator } from "../components/FormValidator.js";
+import { Section } from "../components/Section.js";
 import {
   initialCards,
   settingsForm as settings,
@@ -8,12 +8,12 @@ import {
   buttonAddPhoto,
   formEditProfile,
   formAddPhoto
-} from "./consts.js";
+} from "../scripts/consts.js";
 
-import { PopupWithForm } from "./PopupWithForm.js";
-import { UserInfo } from "./UserInfo.js";
-import { PopupWithImage } from "./PopupWithImage.js";
-import { Card } from "./Card.js";
+import { PopupWithForm } from "../components/PopupWithForm.js";
+import { UserInfo } from "../components/UserInfo.js";
+import { PopupWithImage } from "../components/PopupWithImage.js";
+import { Card } from "../components/Card.js";
 
 const formEditProfileValidator = new FormValidator(settings, formEditProfile);
 const formAddPhotoValidator = new FormValidator(settings, formAddPhoto);
@@ -69,6 +69,7 @@ popupWiewPhoto.setEventListeners();
 
 //редактироване профиля---------------------------
 buttonProfileEdit.addEventListener('click', () => {
+  popupEditProfile.resetForm();
   formEditProfileValidator.eraseForm();
   popupEditProfile.setInputValues(userInfo.getUserInfo());
   formEditProfileValidator.checkButtonOpen();
@@ -77,7 +78,8 @@ buttonProfileEdit.addEventListener('click', () => {
 
 //--------добавление фото---------------
 buttonAddPhoto.addEventListener('click', () => {
-  formAddPhotoValidator.eraseForm();
+  popupAddPhoto.resetForm();
+    formAddPhotoValidator.eraseForm();
   formAddPhotoValidator.checkButtonOpen();
   popupAddPhoto.open();
 })

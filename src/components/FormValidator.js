@@ -48,10 +48,10 @@ export class FormValidator {
   }
 
   eraseForm() {
-    this._form.reset();
-    this._form.querySelectorAll(this._errorClass).forEach((span) => {
-      span.textContent = "";
-    })
+    // // this._form.reset();
+    // this._form.querySelectorAll(this._errorClass).forEach((span) => {
+    //   span.textContent = "";
+    // })
     this._form.querySelectorAll(this._inputSelector).forEach((input) => {
       this._hideInputError(input);
     })
