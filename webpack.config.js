@@ -15,13 +15,15 @@ module.exports = {
   },
   mode: 'development',
   devServer: {
-    historyApiFallback: true,
-    contentBase: path.resolve(__dirname, './dist'),
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
     open: true,
     compress: true,
     hot: true,
     port: 8080,
-},
+
+  },
 
   plugins: [
     new CleanWebpackPlugin(),
