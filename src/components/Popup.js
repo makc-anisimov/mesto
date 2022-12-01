@@ -1,24 +1,25 @@
-import {
-  ESC_KEYCODE,
-  popupOpenedClass
-} from "./consts.js";
+// import {
+//   ESC_KEYCODE,
+//   popupOpenedClass
+// } from "./consts.js";
 
 export class Popup {
   constructor(selectorPopup) {
     this._popup = document.querySelector(selectorPopup);
   }
   open() {
-    this._popup.classList.add(popupOpenedClass);
+    this._popup.classList.add('popup_opened');
     document.addEventListener('keydown', this._handleEscClose);
   }
 
   close() {
     document.removeEventListener('keydown', this._handleEscClose);
-    this._popup.classList.remove(popupOpenedClass);
+    this._popup.classList.remove('popup_opened');
   }
 
   _handleEscClose = (evt) => {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.key === 'Escape') {
+      console.log(evt);
       this.close();
     }
   }
