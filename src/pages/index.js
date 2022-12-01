@@ -69,7 +69,7 @@ popupWiewPhoto.setEventListeners();
 
 //редактироване профиля---------------------------
 buttonProfileEdit.addEventListener('click', () => {
-  popupEditProfile.resetForm();
+  // popupEditProfile.resetForm();
   formEditProfileValidator.eraseForm();
   popupEditProfile.setInputValues(userInfo.getUserInfo());
   formEditProfileValidator.checkButtonOpen();
@@ -78,7 +78,7 @@ buttonProfileEdit.addEventListener('click', () => {
 
 //--------добавление фото---------------
 buttonAddPhoto.addEventListener('click', () => {
-  popupAddPhoto.resetForm();
+  // popupAddPhoto.resetForm();
     formAddPhotoValidator.eraseForm();
   formAddPhotoValidator.checkButtonOpen();
   popupAddPhoto.open();
