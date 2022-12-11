@@ -1,5 +1,5 @@
-.popup__save-button {
-    margin: 28px auto 0;
+.popup__confirm-button {
+    margin: 32px auto 0;
     padding: 0;
     width: 358px;
     height: 50px;
@@ -14,13 +14,14 @@
     border: none;
     border-radius: 2px;
 }
-.popup__save-button:hover {
+
+.popup__confirm-button:hover {
     opacity: 0.8;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 767px) {
-    .popup__save-button {
+    .popup__confirm-button {
         margin-top: 45px;
         width: 238px;
         height: 46px;

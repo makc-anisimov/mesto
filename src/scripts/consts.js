@@ -1,5 +1,6 @@
 export const formEditProfile = document.forms.formEditProfile;
 export const formAddPhoto = document.forms.formAddPhoto;
+export const formUpdateAvatar = document.forms.formUpdateAvatar;
 
 export const buttonProfileEdit = document.querySelector('.profile__edit');      //кнопка редакт профиля
 export const buttonAddPhoto = document.querySelector('.profile__add-button');   //кнопка добавления фото

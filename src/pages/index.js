@@ -7,7 +7,8 @@ import {
   buttonProfileEdit,
   buttonAddPhoto,
   formEditProfile,
-  formAddPhoto
+  formAddPhoto,
+  formUpdateAvatar
 } from "../scripts/consts.js";
 
 import { PopupWithForm } from "../components/PopupWithForm.js";
@@ -17,6 +18,7 @@ import { Card } from "../components/Card.js";
 
 const formEditProfileValidator = new FormValidator(settings, formEditProfile);
 const formAddPhotoValidator = new FormValidator(settings, formAddPhoto);
+const formUpdateAvatarValidator = new FormValidator(settings, formUpdateAvatar);
 
 const section = new Section({
   items: initialCards.reverse(),
@@ -62,6 +64,7 @@ const popupAddPhoto = new PopupWithForm('.popup_type_add-photo',
 
 formEditProfileValidator.enableValidation();
 formAddPhotoValidator.enableValidation();
+formUpdateAvatarValidator.enableValidation();
 
 popupEditProfile.setEventListeners();
 popupAddPhoto.setEventListeners();
