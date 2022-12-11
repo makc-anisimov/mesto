@@ -18,8 +18,10 @@
   <main>
     <section class="profile">
       <div class="profile__person">
-        <img class="profile__photo" src="<%=require('./images/avatar.png')%>" alt="Фото профиля">
-        <!-- <img class="profile__photo" src="./images/avatar.png" alt="Фото профиля"> -->
+        <div class="profile__avatar">
+          <img class="profile__photo-cover" src="<%=require('./images/pen.png')%>" alt="Редактировать">
+          <img class="profile__photo" src="<%=require('./images/avatar.png')%>" alt="Фото профиля">
+        </div>
         <div class="profile__info">
           <div class="profile__title">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -80,8 +82,10 @@
   <div class="popup popup_type_confirm">
     <div class="popup__container">
       <button class="popup__close-button link" type="button" aria-label="закрыть форму"></button>
-      <h2 class="popup__confirm-title">Вы уверены?</h2>
-      <button class="popup__confirm-button" type="submit">Да</button>
+      <form class="popup__form" id="formConfirmDelete" name="formConfirmDelete" method="post" novalidate>
+        <h2 class="popup__confirm-title">Вы уверены?</h2>
+        <button class="popup__confirm-button" type="submit">Да</button>
+      </form>
     </div>
   </div>
   <div class="popup popup_type_update-avatar">
