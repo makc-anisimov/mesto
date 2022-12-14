@@ -2,7 +2,7 @@ import './index.css';
 import { FormValidator } from "../components/FormValidator.js";
 import { Section } from "../components/Section.js";
 import {
-  initialCards,
+  // initialCards,
   settingsForm as settings,
   buttonProfileEdit,
   buttonAddPhoto,
@@ -21,13 +21,14 @@ let userId
 
 api.getProfile()
   .then(res => {
+    // console.log('get Profile res', res);
     userInfo.setUserInfo({ profileName: res.name, profileJob: res.about });
-    userId = res._id
+    userId = res._id;
   });
 
 api.getInitialCards()
   .then(cardList => {
-    cardList.forEach(item => {
+    cardList.reverse().forEach(item => {
       const card = createCard(
         {
           name: item.name,
@@ -40,7 +41,6 @@ api.getInitialCards()
       section.addItem(card);
     })
   });
-
 
 const formEditProfileValidator = new FormValidator(settings, formEditProfile);
 const formAddPhotoValidator = new FormValidator(settings, formAddPhoto);
@@ -58,25 +58,30 @@ const createCard = (dataCard) => {
   const cardItem = new Card(
     dataCard,
     '.element-template',
-    (cardPhoto) => {
-      popupWiewPhoto.open(cardPhoto)
-    },
+    (cardPhoto) => { popupWiewPhoto.open(cardPhoto) },
     (id) => {
       popupConfirm.open();
       popupConfirm.changeSubmitHandler(() => {
         api.deleteCard(id)
-        .then(res => {
-          cardItem.deleteCard()
-        })
+          .then(() => {
+            cardItem.deleteCard()
+          })
       })
     },
     (id) => {
-      api.addLike(id)
-      .then(res => {
-         cardItem.setLikes(res.likes)
-      })
+      if (cardItem.isLiked()) {
+        api.deleteLike(id)
+          .then(res => {
+            cardItem.setLikes(res.likes)
+          })
+      } else {
+        api.addLike(id)
+          .then(res => {
+            cardItem.setLikes(res.likes)
+          })
+      }
     }
-    );
+  );
   return cardItem.getRenderedCard();
 }
 
@@ -117,10 +122,10 @@ const popupAddPhoto = new PopupWithForm('.popup_type_add-photo',
 
   });
 
-  const popupConfirm = new PopupWithForm('.popup_type_confirm',() => {
-    api.deleteCard()
-    console.log('удалить карточку');
-  })
+const popupConfirm = new PopupWithForm('.popup_type_confirm', () => {
+  api.deleteCard()
+  console.log('удалить карточку');
+})
 
 
 

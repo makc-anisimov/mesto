@@ -26,10 +26,19 @@ export class Card {
   // _handleLikePhoto() {
   //   this._card.querySelector('.element__like').classList.toggle('element__like_active');
   // }
-  _handleLikedPhoto() {
+
+  _handleAddLikePhoto() {
     this._cardLikeButton.classList.add('element__like_active');
   }
 
+  _handleRemoveLikePhoto() {
+    this._cardLikeButton.classList.remove('element__like_active');
+  }
+
+  isLiked() {
+    const isLikedMe = this._likes.find(user => user._id === this._userId);
+    return isLikedMe;
+  }
 
   deleteCard() {
     this._card.remove();
@@ -43,9 +52,13 @@ export class Card {
     });
   }
 
-  setLikes() {
+  setLikes(newLikes) {
+    this._likes = newLikes;
     const countLikesElement = this._card.querySelector('.element__like-count');
-    countLikesElement.textContent = this._likes.length
+    countLikesElement.textContent = this._likes.length;
+    if (this.isLiked()) {
+      this._handleAddLikePhoto();
+    } else this._handleRemoveLikePhoto();
   }
 
   getRenderedCard() {
@@ -53,16 +66,10 @@ export class Card {
     this._cardPhoto.src = this._link;
     this._cardPhoto.alt = this._name;
     this._setEventListeners();
-    this.setLikes();
+    this.setLikes(this._likes);//
     if (this._userId !== this._ownerId) {
-      this._card.querySelector('.element__delete-button').style.display = 'none'
+      this._card.querySelector('.element__delete-button').style.display = 'none';
     }
-    const userHasLikedCard = (this._likes.find(user => {user._id === this._userId}))
-    if (userHasLikedCard) {
-      console.log('ты лайкнул!')
-      this._handleLikedPhoto();
-    }
-
     return this._card;
   }
 }

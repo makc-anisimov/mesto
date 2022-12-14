@@ -80,7 +80,7 @@ class Api {
       .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
       .catch(console.log)
   }
-  // другие методы работы с API
+
 }
 
 export const api = new Api({
