@@ -2,24 +2,54 @@ import './index.css';
 import { FormValidator } from "../components/FormValidator.js";
 import { Section } from "../components/Section.js";
 import {
-  initialCards,
+  // initialCards,
   settingsForm as settings,
   buttonProfileEdit,
   buttonAddPhoto,
+  buttonAvatarEdit,
   formEditProfile,
-  formAddPhoto
+  formAddPhoto,
+  formUpdateAvatar
 } from "../scripts/consts.js";
 
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import { UserInfo } from "../components/UserInfo.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { Card } from "../components/Card.js";
+import { api } from '../components/Api.js';
+
+let userId
+
+api.getProfile()
+  .then(res => {
+    // console.log('get Profile res', res);
+    userInfo.setUserInfo(res);
+    // userInfo.setUserInfo({ profileName: res.name, profileJob: res.about });
+    userId = res._id;
+  });
+
+api.getInitialCards()
+  .then(cardList => {
+    cardList.reverse().forEach(item => {
+      const card = createCard(
+        {
+          name: item.name,
+          link: item.link,
+          likes: item.likes,
+          id: item._id,
+          userId: userId,
+          ownerId: item.owner._id
+        });
+      section.addItem(card);
+    })
+  });
 
 const formEditProfileValidator = new FormValidator(settings, formEditProfile);
 const formAddPhotoValidator = new FormValidator(settings, formAddPhoto);
+const formUpdateAvatarValidator = new FormValidator(settings, formUpdateAvatar);
 
 const section = new Section({
-  items: initialCards.reverse(),
+  items: [],
   renderer: (item) => {
     const card = createCard(item);
     section.addItem(card);
@@ -30,59 +60,127 @@ const createCard = (dataCard) => {
   const cardItem = new Card(
     dataCard,
     '.element-template',
-    (cardPhoto) => {
-      popupWiewPhoto.open(cardPhoto)
-    });
+    (cardPhoto) => { popupWiewPhoto.open(cardPhoto) },
+    (id) => {
+      popupConfirm.open();
+      popupConfirm.changeSubmitHandler(() => {
+        api.deleteCard(id)
+          .then(() => {
+            cardItem.deleteCard()
+          })
+      })
+    },
+    (id) => {
+      if (cardItem.isLiked()) {
+        api.deleteLike(id)
+          .then(res => {
+            cardItem.setLikes(res.likes)
+          })
+      } else {
+        api.addLike(id)
+          .then(res => {
+            cardItem.setLikes(res.likes)
+          })
+      }
+    }
+  );
   return cardItem.getRenderedCard();
 }
 
 const popupEditProfile = new PopupWithForm(
   '.popup_type_profile-edit',
   (dataProfile) => {
-    userInfo.setUserInfo(dataProfile);
+    api.edtiProfile(dataProfile.profileName, dataProfile.profileJob)
+      .then(() => {
+        userInfo.setUserInfo(dataProfile)
+      });
   }
 );
 
 const popupWiewPhoto = new PopupWithImage('.popup_wiew-photo');
 const userInfo = new UserInfo({
   selectorName: '.profile__name',
-  selectorJob: '.profile__job'
+  selectorJob: '.profile__job',
+  selectorAvatarPhoto: '.profile__photo'
 });
 
 const popupAddPhoto = new PopupWithForm('.popup_type_add-photo',
   (inputData) => {
-    const dataNewCard = {
-      name: inputData.mestoName,
-      link: inputData.mestoLink
-    };
-    const newCard = createCard(dataNewCard);
-    section.addItem(newCard);
+    api.addCard(inputData.mestoName, inputData.mestoLink)
+      .then(res => {
+        const newCard = createCard({
+          name: res.name,
+          link: res.link,
+          likes: res.likes,
+          id: res._id,
+          userId: userId,
+          ownerId: res.owner._id
+        })
+        section.addItem(newCard);
+      })
 
   });
 
-formEditProfileValidator.enableValidation();
-formAddPhotoValidator.enableValidation();
-
-popupEditProfile.setEventListeners();
-popupAddPhoto.setEventListeners();
-popupWiewPhoto.setEventListeners();
-
-//редактироване профиля---------------------------
-buttonProfileEdit.addEventListener('click', () => {
-  // popupEditProfile.resetForm();
-  formEditProfileValidator.eraseForm();
-  popupEditProfile.setInputValues(userInfo.getUserInfo());
-  formEditProfileValidator.checkButtonOpen();
-  popupEditProfile.open();
-});
-
-//--------добавление фото---------------
-buttonAddPhoto.addEventListener('click', () => {
-  // popupAddPhoto.resetForm();
-    formAddPhotoValidator.eraseForm();
-  formAddPhotoValidator.checkButtonOpen();
-  popupAddPhoto.open();
+const popupConfirm = new PopupWithForm('.popup_type_confirm', () => {
+  api.deleteCard()
 })
 
+const popupUpdateAvatar = new PopupWithForm('.popup_type_update-avatar', ({AvatarLink}) => {
+  console.log('AvatarLink', AvatarLink)
+  api.updateAvatar(AvatarLink)
+    .then(res => {
+      userInfo.setUserInfo(res);
+    })
+  })
+
+
+
+  formEditProfileValidator.enableValidation();
+  formAddPhotoValidator.enableValidation();
+  formUpdateAvatarValidator.enableValidation();
+
+  popupEditProfile.setEventListeners();
+  popupAddPhoto.setEventListeners();
+  popupWiewPhoto.setEventListeners();
+  popupConfirm.setEventListeners();
+  popupUpdateAvatar.setEventListeners();
+
+  //редактироване профиля---------------------------
+  buttonProfileEdit.addEventListener('click', () => {
+    formEditProfileValidator.eraseForm();
+    popupEditProfile.setInputValues(userInfo.getUserInfo());
+    formEditProfileValidator.checkButtonOpen();
+    popupEditProfile.open();
+  });
+
+  //--------добавление фото---------------
+  buttonAddPhoto.addEventListener('click', () => {
+    // popupAddPhoto.resetForm();
+    formAddPhotoValidator.eraseForm();
+    formAddPhotoValidator.checkButtonOpen();
+    popupAddPhoto.open();
+  })
+
+  buttonAvatarEdit.addEventListener('click', () => {
+    formUpdateAvatarValidator.eraseForm();
+    formUpdateAvatarValidator.checkButtonOpen();
+    popupUpdateAvatar.open();
+
+  })
+
 // отрисовка всех карточек на странице
-section.renderAllitems();
+// section.renderAllitems();
+
+
+// api.getProfile()
+//   .then(res => {
+//     // console.log('res', res);
+//     userInfo.setUserInfo({ profileName: res.name, profileJob: res.about});
+//   });
+
+// api.getInitialCards()
+// .then(res => {
+//   console.log('res', res);
+//   // userInfo.setUserInfo({ profileName: res.name, profileJob: res.about});
+// });
+
