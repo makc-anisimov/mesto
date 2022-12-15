@@ -35,6 +35,18 @@ class Api {
 
   }
 
+  updateAvatar (newAvatarlink) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: newAvatarlink
+      })
+    })
+      .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+      .catch(console.log)
+  }
+
   addCard(name, link) {
     return fetch(`${this._baseUrl}/cards `, {
       method: "POST",
@@ -46,10 +58,6 @@ class Api {
     })
       .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
       .catch(console.log)
-
-  }
-
-  getLikes() {
 
   }
 
@@ -86,6 +94,7 @@ class Api {
 export const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-54',
   headers: {
+    // authorization: 'test fail',
     authorization: 'b1e741c7-60c4-4f43-a930-80a1fe61268c',
     'Content-Type': 'application/json'
   }

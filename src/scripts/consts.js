@@ -4,7 +4,7 @@ export const formUpdateAvatar = document.forms.formUpdateAvatar;
 
 export const buttonProfileEdit = document.querySelector('.profile__edit');      //кнопка редакт профиля
 export const buttonAddPhoto = document.querySelector('.profile__add-button');   //кнопка добавления фото
-export const buttonAvatarEdit = document.querySelector('.profile__photo-cover'); //редакт аватара
+export const buttonAvatarEdit = document.querySelector('.profile__photo'); //редакт аватара
 
 export const ESC_KEYCODE = 27;
 export const popupOpenedClass = 'popup_opened';

@@ -6,6 +6,7 @@ import {
   settingsForm as settings,
   buttonProfileEdit,
   buttonAddPhoto,
+  buttonAvatarEdit,
   formEditProfile,
   formAddPhoto,
   formUpdateAvatar
@@ -22,7 +23,8 @@ let userId
 api.getProfile()
   .then(res => {
     // console.log('get Profile res', res);
-    userInfo.setUserInfo({ profileName: res.name, profileJob: res.about });
+    userInfo.setUserInfo(res);
+    // userInfo.setUserInfo({ profileName: res.name, profileJob: res.about });
     userId = res._id;
   });
 
@@ -98,15 +100,12 @@ const popupEditProfile = new PopupWithForm(
 const popupWiewPhoto = new PopupWithImage('.popup_wiew-photo');
 const userInfo = new UserInfo({
   selectorName: '.profile__name',
-  selectorJob: '.profile__job'
+  selectorJob: '.profile__job',
+  selectorAvatarPhoto: '.profile__photo'
 });
 
 const popupAddPhoto = new PopupWithForm('.popup_type_add-photo',
   (inputData) => {
-    // const dataNewCard = {
-    //   name: inputData.mestoName,
-    //   link: inputData.mestoLink
-    // };
     api.addCard(inputData.mestoName, inputData.mestoLink)
       .then(res => {
         const newCard = createCard({
@@ -124,35 +123,50 @@ const popupAddPhoto = new PopupWithForm('.popup_type_add-photo',
 
 const popupConfirm = new PopupWithForm('.popup_type_confirm', () => {
   api.deleteCard()
-  console.log('удалить карточку');
 })
 
+const popupUpdateAvatar = new PopupWithForm('.popup_type_update-avatar', ({AvatarLink}) => {
+  console.log('AvatarLink', AvatarLink)
+  api.updateAvatar(AvatarLink)
+    .then(res => {
+      userInfo.setUserInfo(res);
+    })
+  })
 
 
-formEditProfileValidator.enableValidation();
-formAddPhotoValidator.enableValidation();
-formUpdateAvatarValidator.enableValidation();
 
-popupEditProfile.setEventListeners();
-popupAddPhoto.setEventListeners();
-popupWiewPhoto.setEventListeners();
-popupConfirm.setEventListeners();
+  formEditProfileValidator.enableValidation();
+  formAddPhotoValidator.enableValidation();
+  formUpdateAvatarValidator.enableValidation();
 
-//редактироване профиля---------------------------
-buttonProfileEdit.addEventListener('click', () => {
-  formEditProfileValidator.eraseForm();
-  popupEditProfile.setInputValues(userInfo.getUserInfo());
-  formEditProfileValidator.checkButtonOpen();
-  popupEditProfile.open();
-});
+  popupEditProfile.setEventListeners();
+  popupAddPhoto.setEventListeners();
+  popupWiewPhoto.setEventListeners();
+  popupConfirm.setEventListeners();
+  popupUpdateAvatar.setEventListeners();
 
-//--------добавление фото---------------
-buttonAddPhoto.addEventListener('click', () => {
-  // popupAddPhoto.resetForm();
-  formAddPhotoValidator.eraseForm();
-  formAddPhotoValidator.checkButtonOpen();
-  popupAddPhoto.open();
-})
+  //редактироване профиля---------------------------
+  buttonProfileEdit.addEventListener('click', () => {
+    formEditProfileValidator.eraseForm();
+    popupEditProfile.setInputValues(userInfo.getUserInfo());
+    formEditProfileValidator.checkButtonOpen();
+    popupEditProfile.open();
+  });
+
+  //--------добавление фото---------------
+  buttonAddPhoto.addEventListener('click', () => {
+    // popupAddPhoto.resetForm();
+    formAddPhotoValidator.eraseForm();
+    formAddPhotoValidator.checkButtonOpen();
+    popupAddPhoto.open();
+  })
+
+  buttonAvatarEdit.addEventListener('click', () => {
+    formUpdateAvatarValidator.eraseForm();
+    formUpdateAvatarValidator.checkButtonOpen();
+    popupUpdateAvatar.open();
+
+  })
 
 // отрисовка всех карточек на странице
 // section.renderAllitems();
