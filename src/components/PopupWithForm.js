@@ -34,8 +34,8 @@ export class PopupWithForm extends Popup {
       this.buttonTextLoading();
       // debugger
       this._handleSubmitForm(this._getInputValues());
-      this.buttonTextSave();
-      this.close();
+      // this.buttonTextSave();
+      // this.close();
     });
   }
   resetForm() {
@@ -50,14 +50,10 @@ export class PopupWithForm extends Popup {
   buttonTextLoading() {
     this._saveButtonText = this._saveButton.textContent;
     this._saveButton.textContent = 'Сохранение...'
-    // console.log('this._saveButtonText', this._saveButtonText)
-    // console.log('this._saveButton.textContent', this._saveButton.textContent);
-
   }
 
   buttonTextSave() {
     this._saveButton.textContent = this._saveButtonText
-    // console.log('this._saveButton.textContent', this._saveButton.textContent);
   }
 
 }
