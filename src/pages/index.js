@@ -144,11 +144,10 @@ Promise.all([
   api.getProfile(),
   api.getInitialCards()
 ])
-  .then((values) => { //попадаем сюда когда оба промиса будут выполнены
-    //  console.log ('Promise all, values:', values);
-    userInfo.setUserInfo(values[0]);
-    userId = values[0]._id;
-    section.renderAllitems(values[1]);
+  .then(([profile, initialCards]) => { //попадаем сюда когда оба промиса будут выполнены
+    userInfo.setUserInfo(profile);
+    userId = profile._id;
+    section.renderAllitems(initialCards);
   })
   .catch(err => console.log(`Ошибка: ${err}`));
 
