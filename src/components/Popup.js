@@ -1,7 +1,3 @@
-// import {
-//   ESC_KEYCODE,
-//   popupOpenedClass
-// } from "./consts.js";
 
 export class Popup {
   constructor(selectorPopup) {
@@ -19,7 +15,7 @@ export class Popup {
 
   _handleEscClose = (evt) => {
     if (evt.key === 'Escape') {
-      console.log(evt);
+      // console.log(evt);
       this.close();
     }
   }
