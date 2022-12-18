@@ -31,6 +31,17 @@ const section = new Section(
   },
   '.elements__list')
 
+  const prepareData = (item) => {
+    return {
+      name: item.name,
+      link: item.link,
+      likes: item.likes,
+      id: item._id,
+      userId: userId,
+      ownerId: item.owner._id
+    }
+  }
+
 const createCard = (dataCard) => {
   const cardItem = new Card(
     dataCard,
@@ -84,14 +95,7 @@ const popupAddPhoto = new PopupWithForm('.popup_type_add-photo',
   (inputData) => {
     api.addCard(inputData.mestoName, inputData.mestoLink)
       .then(res => {
-        const newCard = createCard({
-          name: res.name,
-          link: res.link,
-          likes: res.likes,
-          id: res._id,
-          userId: userId,
-          ownerId: res.owner._id
-        })
+        const newCard = createCard(prepareData(res))
         section.addItem(newCard);
       })
       .catch(err => console.log(`Ошибка: ${err}`))
@@ -101,32 +105,19 @@ const popupAddPhoto = new PopupWithForm('.popup_type_add-photo',
       })
   });
 
-const popupConfirm = new PopupConfirmDeleteCard('.popup_type_confirm', (id) => {
-  api.deleteCard(id)
-    .then(() => {
-      popupConfirm.buttonTextSave();
-      popupConfirm.close();
-    })
-    .catch(err => console.log(`Ошибка: ${err}`))
-    .finally(() => {
-      api.getInitialCards()
-        .then(cardList => {
-          cardList.reverse().forEach(item => {
-            const card = createCard(
-              {
-                name: item.name,
-                link: item.link,
-                likes: item.likes,
-                id: item._id,
-                userId: userId,
-                ownerId: item.owner._id
-              });
-            section.addItem(card);
+  const popupConfirm = new PopupConfirmDeleteCard('.popup_type_confirm', (id) => {
+    api.deleteCard(id)
+      .catch(err => console.log(`Ошибка: ${err}`))
+      .finally(() => {
+        popupConfirm.buttonTextSave();
+        popupConfirm.close();
+        api.getInitialCards()
+          .then(cardList => {
+            section.renderAllitems(cardList.map(prepareData))
           })
-        })
-        .catch(err => console.log(`Ошибка: ${err}`));
-    })
-})
+          .catch(err => console.log(`Ошибка: ${err}`));
+      })
+  })
 
 const popupUpdateAvatar = new PopupWithForm('.popup_type_update-avatar', ({ AvatarLink }) => {
   api.updateAvatar(AvatarLink)
@@ -147,7 +138,7 @@ Promise.all([
   .then(([profile, initialCards]) => { //попадаем сюда когда оба промиса будут выполнены
     userInfo.setUserInfo(profile);
     userId = profile._id;
-    section.renderAllitems(initialCards);
+    section.renderAllitems(initialCards.map(prepareData))
   })
   .catch(err => console.log(`Ошибка: ${err}`));
 
