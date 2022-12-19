@@ -31,16 +31,16 @@ const section = new Section(
   },
   '.elements__list')
 
-  const prepareData = (item) => {
-    return {
-      name: item.name,
-      link: item.link,
-      likes: item.likes,
-      id: item._id,
-      userId: userId,
-      ownerId: item.owner._id
-    }
+const prepareData = (item) => {
+  return {
+    name: item.name,
+    link: item.link,
+    likes: item.likes,
+    id: item._id,
+    userId: userId,
+    ownerId: item.owner._id
   }
+}
 
 const createCard = (dataCard) => {
   const cardItem = new Card(
@@ -48,7 +48,7 @@ const createCard = (dataCard) => {
     '.element-template',
     (cardPhoto) => { popupWiewPhoto.open(cardPhoto) },
     (id) => {
-      popupConfirm.open(id);
+      popupConfirm.open(id, cardItem)
     },
     (id) => {
       if (cardItem.isLiked()) {
@@ -75,11 +75,11 @@ const popupEditProfile = new PopupWithForm(
     api.edtiProfile(dataProfile.profileName, dataProfile.profileJob)
       .then((res) => {
         userInfo.setUserInfo(res);
+        popupEditProfile.close();
       })
       .catch(err => console.log(`Ошибка: ${err}`))
       .finally(() => {
         popupEditProfile.buttonTextSave();
-        popupEditProfile.close();
       })
   }
 );
@@ -97,37 +97,35 @@ const popupAddPhoto = new PopupWithForm('.popup_type_add-photo',
       .then(res => {
         const newCard = createCard(prepareData(res))
         section.addItem(newCard);
+        popupAddPhoto.close();
       })
       .catch(err => console.log(`Ошибка: ${err}`))
       .finally(() => {
         popupAddPhoto.buttonTextSave();
-        popupAddPhoto.close();
       })
   });
 
-  const popupConfirm = new PopupConfirmDeleteCard('.popup_type_confirm', (id) => {
-    api.deleteCard(id)
-      .catch(err => console.log(`Ошибка: ${err}`))
-      .finally(() => {
-        popupConfirm.buttonTextSave();
-        popupConfirm.close();
-        api.getInitialCards()
-          .then(cardList => {
-            section.renderAllitems(cardList.map(prepareData))
-          })
-          .catch(err => console.log(`Ошибка: ${err}`));
-      })
-  })
+const popupConfirm = new PopupConfirmDeleteCard('.popup_type_confirm', (id, card) => {
+  api.deleteCard(id)
+    .then(() => {
+      card.deleteCard();
+      popupConfirm.close();
+    })
+    .catch(err => console.log(`Ошибка: ${err}`))
+    .finally(() => {
+      popupConfirm.buttonTextSave();
+    })
+})
 
 const popupUpdateAvatar = new PopupWithForm('.popup_type_update-avatar', ({ AvatarLink }) => {
   api.updateAvatar(AvatarLink)
     .then(res => {
       userInfo.setUserInfo(res);
+      popupUpdateAvatar.close();
     })
     .catch(err => console.log(`Ошибка: ${err}`))
     .finally(() => {
       popupUpdateAvatar.buttonTextSave();
-      popupUpdateAvatar.close();
     })
 })
 

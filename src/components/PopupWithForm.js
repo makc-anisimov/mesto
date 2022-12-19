@@ -16,11 +16,6 @@ export class PopupWithForm extends Popup {
     });
     return this._inputValues;
   }
-
-  changeSubmitHandler(newSubmitHandler) {
-    this._handleSubmitForm = newSubmitHandler
-  }
-
   setInputValues(dataForm) {
     this._inputList.forEach(input => {
       input.value = dataForm[input.name];
@@ -52,5 +47,4 @@ export class PopupWithForm extends Popup {
   buttonTextSave() {
     this._saveButton.textContent = this._saveButtonText
   }
-
 }

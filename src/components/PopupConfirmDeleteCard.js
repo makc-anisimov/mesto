@@ -6,6 +6,7 @@ export class PopupConfirmDeleteCard extends Popup {
     this._popupForm = this._popup.querySelector('.popup__form');
     this._handleSubmitForm = handleSubmitForm;
     this._saveButton = this._popupForm.querySelector('.popup__save-button');
+    this._saveButtonText = this._saveButton.textContent;
   }
 
   setEventListeners() {
@@ -13,17 +14,17 @@ export class PopupConfirmDeleteCard extends Popup {
     this._popupForm.addEventListener('submit', (evt) => {
       evt.preventDefault();
       this.buttonTextLoading();
-      this._handleSubmitForm(this._idDeletedCard);
+      this._handleSubmitForm(this._idDeletedCard, this._deletedCard);
     });
   }
 
-  open(id) {
+  open(id, card) {
     this._idDeletedCard = id;
+    this._deletedCard = card;
     super.open();
   }
 
   buttonTextLoading() {
-    this._saveButtonText = this._saveButton.textContent;
     this._saveButton.textContent = 'Сохранение...'
   }
 

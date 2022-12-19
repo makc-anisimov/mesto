@@ -54,12 +54,12 @@ export class Card {
   setLikes(newLikes) {
     this._likes = newLikes;
     this._countLikesElement.textContent = this._likes.length;
-    if (this.isLiked()) {
-      this._handleAddLikePhoto();
-    } else this._handleRemoveLikePhoto();
+    // if (this.isLiked()) {
+    //   this._handleAddLikePhoto();
+    // } else this._handleRemoveLikePhoto();
 
     // if (this.isLiked()) {
-    //   this._cardLikeButton.classList.toggle('element__like_active', this.isLiked())
+      this._cardLikeButton.classList.toggle('element__like_active', this.isLiked());
     // } //так не cработало
   }
 
